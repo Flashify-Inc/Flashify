@@ -2,15 +2,16 @@
 Flashcard learning tool leveraging AI for rapid flashcard generation
 
 
-Design:
+## Design:
 
 Flashcards classes, nested within Category classes. 
 
 
 
-Folder Structure:
+## Folder Structure:
 For now, structure is one layer of any number of categories, each of which contain any number of flaschards. 
 
+## Features to Implement
 
 Critical: 
 
