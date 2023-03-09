@@ -24,6 +24,7 @@ Ideal:
 * Include several study methods/games
 * Support organization of flashcards into folders
 * Have API optionally generate category name
+* * Label with special category in UI
 * Optionally select number of cards to generate
 
 Like to have:
