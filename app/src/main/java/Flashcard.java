@@ -32,6 +32,18 @@ public class Flashcard {
         return this.backSide;
     }
 
+    //setter function for next flashcard in sequence
+    public void setNextFlashcard(Flashcard nextFlashcard) {this.nextFlashcard = nextFlashcard;}
+
+    //getter function for next flashcard in sequence
+    public Flashcard getNextFlashcard() {return this.nextFlashcard;}
+
+    //setter function for next flashcard in sequence
+    public void setPreviousFlashcard(Flashcard previousFlashcard) {this.previousFlashcard = previousFlashcard;}
+
+    //getter function for next flashcard in sequence
+    public Flashcard getPreviousFlashcard() {return this.previousFlashcard;}
+
     //public void updatePosition(){}
 
 }
