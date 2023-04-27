@@ -13,21 +13,30 @@
         android:theme="@style/Theme.Flashify"
         tools:targetApi="31">
         <activity
+            android:name=".FlashcardView"
+            android:exported="false" />
+        <activity
+            android:name=".MagicTextView"
+            android:exported="false" />
+        <activity
+            android:name=".MagicView"
+            android:exported="false" />
+        <activity
+            android:name=".CategoryView"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
-            android:label = "Flashify"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <meta-data
             android:name="apiKey"
             android:value="${apiKey}"/>
-
     </application>
 
 </manifest>
