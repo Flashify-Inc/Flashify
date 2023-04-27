@@ -19,9 +19,12 @@ public class FlashcardView extends AppCompatActivity {
         FlashC = findViewById(R.id.FlachCD);
 
             Category c = (Category) getIntent().getParcelableExtra("co");
-            FlashC.setText(c.getFlashcards().get(0).getFront());
-            FlashC.setTextOff(c.getFlashcards().get(0).getFront());
-            FlashC.setTextOn(c.getFlashcards().get(0).getBack());
+            Bundle extras = getIntent().getExtras();
+            int index = extras.getInt("ind");
+
+            FlashC.setText(c.getFlashcards().get(index).getFront());
+            FlashC.setTextOff(c.getFlashcards().get(index).getFront());
+            FlashC.setTextOn(c.getFlashcards().get(index).getBack());
 
     }
 

@@ -35,6 +35,8 @@ public class CategoryView extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intentF = new Intent (CategoryView.this, FlashcardView.class);
                     intentF.putExtra("co",c);
+                    int index = 0;
+                    intentF.putExtra("ind",index);
                     startActivity(intentF);
                 }
             });
@@ -46,6 +48,8 @@ public class CategoryView extends AppCompatActivity {
                 public void onClick(View view2) {
                     Intent intentF = new Intent (CategoryView.this, FlashcardView.class);
                     intentF.putExtra("co",c);
+                    int index = 1;
+                    intentF.putExtra("ind",index);
                     startActivity(intentF);
                 }
             });

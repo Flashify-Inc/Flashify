@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        /***************************     INITIALIZATION     ******************************/
+        /***************************   INITIALIZATION   ******************************/
 
                 // DATABASE DUMMY DATA
                 ArrayList<Category> database = new ArrayList<Category>();
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         categories.get(id).getFlashcards().add(new Flashcard(TempF, TempB) );
                     }
                 }
+        /********************************************************************************/
 
         /*****  MAKE A LIST OF BUTTONS TO (setNAME & setVISIBLITY) EACH TIME A CATEGORY IS CREATED  *****/
         categoryBtn1 = findViewById(R.id.btnCategory1);
@@ -104,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
 
     // magic button
     public void launchMagicView (View V){
