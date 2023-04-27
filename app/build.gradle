@@ -2,6 +2,7 @@ import com.android.build.gradle.internal.dsl.BuildType
 
 plugins {
     id 'com.android.application'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -26,6 +27,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "String", "apiKey", "\"${getProperty("apiKey")}\""
         }
     }
     compileOptions {
