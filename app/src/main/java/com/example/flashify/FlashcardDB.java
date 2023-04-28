@@ -7,9 +7,9 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
-@Entity (foreignKeys = @ForeignKey(entity = Category.class, parentColumns = "id",
-        childColumns = "category_id") /*, indices = {@Index("category_id")}*/ )
-public class Flashcard {
+@Entity (foreignKeys = @ForeignKey(entity = CategoryDB.class, parentColumns = "id",
+        childColumns = "category_id") )
+public class FlashcardDB {
     @PrimaryKey(autoGenerate = true)
     public long flashcardId;
 
@@ -24,7 +24,7 @@ public class Flashcard {
 
 
     //constructor
-    public Flashcard(long flashcardId, String frontSide, String backSide, long categoryId){
+    public FlashcardDB(long flashcardId, String frontSide, String backSide, long categoryId){
         this.flashcardId = flashcardId;
         this.frontSide = frontSide;
         this.backSide = backSide;
@@ -33,7 +33,7 @@ public class Flashcard {
     }
 
     @Ignore
-    public Flashcard(String frontSide, String backSide, long categoryId) {
+    public FlashcardDB(String frontSide, String backSide, long categoryId) {
         this.frontSide = frontSide;
         this.backSide = backSide;
         this.categoryId = categoryId;

@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
 
+    private AppDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,45 +22,24 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
+        db = AppDatabase.getInstance(getApplicationContext());
 
 
-        Category untitledCategory = new Category("Untitled_Category");
-        db.categoryDao().insertCategory(untitledCategory);
+        db.flashcardsDao().deleteAllFlashcards();
+        db.categoryDao().deleteAllCategories();
 
-        Category mathCategory = new Category("Mathematics");
-        db.categoryDao().insertCategory(mathCategory);
+        CategoryDB curCategory1DB = new CategoryDB("Math");
+        long curCategory1Id = curCategory1DB.getCategoryId();
+        FlashcardDB curFlashcard1DB = new FlashcardDB("5 + 5 = ? ", "10", curCategory1Id);
+        //Flashcard curFlashcard2 = new Flashcard("5 * 10 = ? ", "50", 13);
 
-        Category csCategory = new Category("Computer_Science");
-        db.categoryDao().insertCategory(csCategory);
+        db.categoryDao().insertCategory(curCategory1DB);
+        db.flashcardsDao().insertAll(curFlashcard1DB);
 
-        Log.d("debug", "whatever");
-
-
-        List<Category> allCategories = db.categoryDao().getAllCategories();
-
+        List<CategoryDB> allCategories = db.categoryDao().getAllCategories();
             for (int i = 0; i < allCategories.size(); i++){
             Log.d("debug", String.valueOf(allCategories.get(i).categoryName));
         }
-
-        //Flashcard curFlashcard = new Flashcard("Manzana", "Apple", 0);
-        //db.flashcardsDao().insertAll(curFlashcard);
-
-                /*
-        binding.button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                flFront = binding.editTextTextPersonName.getText().toString();
-                flBack = binding.editTextTextPersonName2.getText().toString();
-
-                Flashcard fl1 = new Flashcard(flFront, flBack, 1234);
-
-                db.flashcardsDao().insertAll(fl1);
-
-            }
-        });
-
-                 */
 
 
     }

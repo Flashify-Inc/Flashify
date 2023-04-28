@@ -15,20 +15,20 @@ For now, structure is one layer of any number of categories, each of which conta
 
 Critical: 
 
-* Use AI model to generate flashcards from text
-* Write, edit, and study flashcards 
+* Use AI model to generate flashcardDBS from text
+* Write, edit, and study flashcardDBS 
 * Store user preferences and cards in SQL database
 
 
 Ideal:
 * Include several study methods/games
-* Support organization of flashcards into folders
-* Have API optionally generate category name
-  - Label with special category in UI
+* Support organization of flashcardDBS into folders
+* Have API optionally generate categoryDB name
+  - Label with special categoryDB in UI
 * Optionally select number of cards to generate
 
 Like to have:
 * Reminder push notifications
 * Support multiple formats (pdf, powerpoint, photo)
-* Optionally select format of flashcards generated
+* Optionally select format of flashcardDBS generated
 * Support nested folder structure

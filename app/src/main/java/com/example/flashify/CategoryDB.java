@@ -7,24 +7,27 @@ import androidx.room.PrimaryKey;
 
 
 @Entity
-public class Category {
+public class CategoryDB {
     @PrimaryKey(autoGenerate = true)
     public long id;
 
     @ColumnInfo(name = "category_name")
     public String categoryName;
 
-    public Category(long id, String categoryName){
+    public CategoryDB(long id, String categoryName){
         this.id = id;
         this.categoryName = categoryName;
     }
 
-
-    @Ignore
-    public Category(String categoryName) {
-        this.categoryName = categoryName;
+    public long getCategoryId (){
+        return id;
     }
 
+
+    @Ignore
+    public CategoryDB(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
 
 }
