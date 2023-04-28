@@ -5,18 +5,16 @@ public class ChatCompletionResponse {
     private String id;
     private String object;
     private String created;
-    private String model;
-    private Choices[] choices;
+    private Choice[] choices;
     private Usage usage;
 
-    private class Choices {
-        String text;
+    private class Choice {
         int index;
-        Object logprobs;
         String finish_reason;
+        Message message;
 
-        public String getText() {
-            return text;
+        public String getMessage() {
+            return message.getContent();
         }
     }
 
@@ -27,6 +25,6 @@ public class ChatCompletionResponse {
     }
 
     public String getCompletion() {
-        return choices[0].getText();
+        return choices[0].getMessage();
     }
 }
