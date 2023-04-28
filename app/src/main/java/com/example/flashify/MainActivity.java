@@ -23,9 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // localize the interactive buttons in the screen
         addBtn=findViewById(R.id.openBtn);
         magicBtn=findViewById(R.id.magicBtn);
         manualBtn=findViewById(R.id.manualBtn);
+        categoryBtn1 = findViewById(R.id.btnCategory1);
+        categoryBtn2 = findViewById(R.id.btnCategory2);
 
         // display magic & manual button
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
+
 
         /***************************   INITIALIZATION   ******************************/
 
@@ -75,14 +80,11 @@ public class MainActivity extends AppCompatActivity {
         /********************************************************************************/
 
         /*****  MAKE A LIST OF BUTTONS TO (setNAME & setVISIBLITY) EACH TIME A CATEGORY IS CREATED  *****/
-        categoryBtn1 = findViewById(R.id.btnCategory1);
-        categoryBtn2 = findViewById(R.id.btnCategory2);
-
-        categoryBtn1.setText(categories.get(0).getName());
-        categoryBtn2.setText(categories.get(1).getName());
-
         //first category
+        categoryBtn1.setText(categories.get(0).getName());
         categoryBtn1.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
 
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //second category
+        categoryBtn2.setText(categories.get(1).getName());
         categoryBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // magic button
+
+    // magic button method
     public void launchMagicView (View V){
         Intent intentM = new Intent (this,MagicView.class);
         startActivity(intentM);
