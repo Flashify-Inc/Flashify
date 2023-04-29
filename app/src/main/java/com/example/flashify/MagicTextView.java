@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MagicTextView extends AppCompatActivity {
 
-    static String apiResponse;
+    String apiResponse;
+    String userInputText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,15 @@ public class MagicTextView extends AppCompatActivity {
 
         flashifyBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                generateFlashcards();
+                EditText editText = findViewById(R.id.editText);
+                userInputText = editText.getText().toString();
+
+                if (userInputText.length() > 3000) {
+                    Toast.makeText(getApplicationContext(), "That text is too long! Keep it under 3000 characters to conserve API usage.", Toast.LENGTH_LONG).show();
+
+                } else {
+                    generateFlashcards();
+                }
             }
         });
 
@@ -50,8 +60,6 @@ public class MagicTextView extends AppCompatActivity {
 
         String model = getString(R.string.model);
         String systemApiPrompt = getString(R.string.system_api_prompt);
-        EditText editText = findViewById(R.id.editText);
-        String userInputText = editText.getText().toString();
 
         ChatCompletionRequest chatCompletionRequest = new ChatCompletionRequest(model, systemApiPrompt, userInputText);
 
@@ -61,9 +69,8 @@ public class MagicTextView extends AppCompatActivity {
                          @Override
                          public void onResponse(Call<ChatCompletionResponse> call, Response<ChatCompletionResponse> response) {
                              if (response.isSuccessful()) {
-                                 MagicTextView.apiResponse = response.body().getCompletion();
-                                 Log.d("APIRESPONSE:", MagicTextView.apiResponse);
-                                 editText.setText(MagicTextView.apiResponse);
+                                 apiResponse = response.body().getCompletion();
+                                 Log.d("APIRESPONSE:", apiResponse);
                              } else {
                                  try {
                                      Log.e("FAILED API CALL", "Error: " + response.code() + " " + response.errorBody().string());
