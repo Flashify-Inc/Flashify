@@ -26,6 +26,7 @@ public class MagicTextView extends AppCompatActivity {
 
     String apiResponse;
     String userInputText;
+    Flashcard[] generatedFlashcards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +64,6 @@ public class MagicTextView extends AppCompatActivity {
 
     }
 
-
-
     private void generateFlashcards() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.openai.com/")
@@ -85,6 +84,7 @@ public class MagicTextView extends AppCompatActivity {
                              if (response.isSuccessful()) {
                                  apiResponse = response.body().getCompletion();
                                  Log.d("APIRESPONSE:", apiResponse);
+                                 generatedFlashcards = convertStringToFlashcards(apiResponse);
                              } else {
                                  try {
                                      Log.e("FAILED API CALL", "Error: " + response.code() + " " + response.errorBody().string());
@@ -103,5 +103,18 @@ public class MagicTextView extends AppCompatActivity {
                      }
 
         );
+    }
+
+    private Flashcard[] convertStringToFlashcards(String apiOutput) {
+        String[] cardStrings = apiOutput.split("\\|\\|\\|"); // split input string into card strings
+
+        Flashcard[] flashcards = new Flashcard[cardStrings.length]; // create array of Flashcards with appropriate size
+
+        for (int i = 1; i < cardStrings.length; i++) {
+            String[] cardParts = cardStrings[i].split("///"); // split card string into front and back parts
+            flashcards[i-1] = new Flashcard(cardParts[0], cardParts[1]); // create and store new Flashcard object
+        }
+
+        return flashcards; // return array of Flashcards
     }
 }
