@@ -63,7 +63,7 @@ public class MagicTextView extends AppCompatActivity {
                              if (response.isSuccessful()) {
                                  MagicTextView.apiResponse = response.body().getCompletion();
                                  Log.d("APIRESPONSE:", MagicTextView.apiResponse);
-                                 editText.setText(response.body().getCompletion());
+                                 editText.setText(MagicTextView.apiResponse);
                              } else {
                                  try {
                                      Log.e("FAILED API CALL", "Error: " + response.code() + " " + response.errorBody().string());
