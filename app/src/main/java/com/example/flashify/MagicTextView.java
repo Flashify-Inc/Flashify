@@ -1,11 +1,12 @@
 package com.example.flashify;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,8 +40,21 @@ public class MagicTextView extends AppCompatActivity {
                 userInputText = editText.getText().toString();
 
                 if (userInputText.length() > 3000) {
-                    Toast.makeText(getApplicationContext(), "That text is too long! Keep it under 3000 characters to conserve API usage.", Toast.LENGTH_LONG).show();
-
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MagicTextView.this);
+                    builder.setMessage(getString(R.string.lengthWarning))
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    generateFlashcards();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 } else {
                     generateFlashcards();
                 }
@@ -91,4 +105,3 @@ public class MagicTextView extends AppCompatActivity {
         );
     }
 }
-
