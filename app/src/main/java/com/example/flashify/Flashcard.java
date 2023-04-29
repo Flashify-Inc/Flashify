@@ -1,47 +1,65 @@
 package com.example.flashify;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
+import androidx.annotation.NonNull;
 
+public class Flashcard implements Parcelable {
 
-@Entity (foreignKeys = @ForeignKey(entity = Category.class, parentColumns = "id",
-        childColumns = "category_id") /*, indices = {@Index("category_id")}*/ )
-public class Flashcard {
-    @PrimaryKey(autoGenerate = true)
-    public long flashcardId;
+    private String front;
+    private String back;
 
-    @ColumnInfo(name = "front_side")
-    public String frontSide;
-
-    @ColumnInfo(name = "back_side")
-    public String backSide;
-
-    @ColumnInfo(name = "category_id")
-    public long categoryId;
-
-
-    //constructor
-    public Flashcard(long flashcardId, String frontSide, String backSide, long categoryId){
-        this.flashcardId = flashcardId;
-        this.frontSide = frontSide;
-        this.backSide = backSide;
-        this.categoryId = categoryId;
-
+    public Flashcard(String front, String back){
+        this.front = front;
+        this.back = back;
     }
 
-    @Ignore
-    public Flashcard(String frontSide, String backSide, long categoryId) {
-        this.frontSide = frontSide;
-        this.backSide = backSide;
-        this.categoryId = categoryId;
+
+
+    protected Flashcard(Parcel in) {
+        front = in.readString();
+        back = in.readString();
+    }
+
+    public static final Creator<Flashcard> CREATOR = new Creator<Flashcard>() {
+        @Override
+        public Flashcard createFromParcel(Parcel in) {
+            return new Flashcard(in);
+        }
+
+        @Override
+        public Flashcard[] newArray(int size) {
+            return new Flashcard[size];
+        }
+    };
+
+
+
+    public String getFront() {
+        return front;
+    }
+    public String getBack() {
+        return back;
+    }
+
+    public void setFront(String front) {
+        this.front = front;
+    }
+    public void setBack(String back) {
+        this.back = back;
+    }
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
-    public String toString() {
-        return frontSide;
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(front);
+        parcel.writeString(back);
     }
-
 }
+

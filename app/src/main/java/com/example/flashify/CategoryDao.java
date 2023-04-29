@@ -9,13 +9,13 @@ import java.util.List;
 @Dao
 public interface CategoryDao {
 
-    @Query("SELECT * FROM Category")
-    List<Category> getAllCategories();
+    @Query("SELECT * FROM CategoryDB")
+    List<CategoryDB> getAllCategories();
 
     @Insert
-    void insertCategory(Category category);
+    void insertCategory(CategoryDB categoryDB);
 
-    @Query("DELETE FROM Category")
+    @Query("DELETE FROM CategoryDB")
     void deleteAllCategories();
 
 

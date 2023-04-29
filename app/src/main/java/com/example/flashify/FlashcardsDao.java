@@ -8,21 +8,22 @@ import java.util.List;
 
 @Dao
 public interface FlashcardsDao {
-    @Query("SELECT * FROM Flashcard")
-    List<Flashcard> selectAll();
+
+    @Query("SELECT * FROM FlashcardDB")
+    List<FlashcardDB> getAllFlashcards();
 
     //@Query("SELECT * FROM Flashcard WHERE categoryId=:id")
     //List<Flashcard> selectById(long id);
 
     @Insert
-    void insertAll(Flashcard... flashcards);
+    void insertAll(FlashcardDB... flashcardDBS);
 
    // @Update
    // int update(Flashcard flashcard);
 
-    @Query("DELETE FROM Flashcard")
+    @Query("DELETE FROM FlashcardDB")
     void deleteAllFlashcards();
 
-   // @Delete
+    // @Delete
    //int deleteAll(Flashcard... flashcards);
 }
