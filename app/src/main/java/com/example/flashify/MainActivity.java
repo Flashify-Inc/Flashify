@@ -77,6 +77,31 @@ public class MainActivity extends AppCompatActivity {
                 //database.get(1).getFlashcards().add(new Flashcard ("H2O","the water chemical compound"));
                 database.get(1).getFlashcards().add(new Flashcard ("dilution","the act of decreasing the concentration of a soluble"));
 */
+
+                db.flashcardsDao().deleteAllFlashcards();
+                db.categoryDao().deleteAllCategories();
+
+                CategoryDB mathCat = new CategoryDB("Mathematics");
+                long mathCat_ID = db.categoryDao().insertCategory(mathCat);
+                CategoryDB chemCat = new CategoryDB("Chemistry");
+                long chemCat_ID = db.categoryDao().insertCategory(chemCat);
+                CategoryDB bioCat = new CategoryDB("Biology");
+                long bioCat_ID = db.categoryDao().insertCategory(bioCat);
+
+                FlashcardDB fl1 = new FlashcardDB("2+2=", "4", mathCat_ID);
+                FlashcardDB fl2 = new FlashcardDB("10+10=", "20", mathCat_ID);
+                FlashcardDB fl3 = new FlashcardDB("hydrochloric acid formula", "HCl", chemCat_ID);
+                FlashcardDB fl4 = new FlashcardDB("sulfuric acid formula", "H2SO4", chemCat_ID);
+                FlashcardDB fl5 = new FlashcardDB("Mitosis", "Whatever Mitosis is", chemCat_ID);
+                db.flashcardsDao().insertFlashcard(fl1);
+                db.flashcardsDao().insertFlashcard(fl2);
+                db.flashcardsDao().insertFlashcard(fl3);
+                db.flashcardsDao().insertFlashcard(fl4);
+                db.flashcardsDao().insertFlashcard(fl5);
+
+
+
+
                 // Getting everything from the database and storing it into CategoryDB and FlashcardsDB lists.
                 List<CategoryDB> categoryDBList = db.categoryDao().getAllCategories();
                 List<FlashcardDB> flashcardDBList = db.flashcardsDao().getAllFlashcards();
