@@ -91,7 +91,7 @@
         android:backgroundTint="@color/purple_500"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
