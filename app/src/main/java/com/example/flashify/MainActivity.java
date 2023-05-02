@@ -91,25 +91,39 @@ public class MainActivity extends AppCompatActivity {
 
 
         for(int id = 0; id< categoryDBList.size() ; id++) {
-                    // loading category from the database
-                    TempN = categoryDBList.get(id).categoryName;
-                    TempCatId = categoryDBList.get(id).id;
+            // loading category from the database
+            TempN = categoryDBList.get(id).categoryName;
+            TempCatId = categoryDBList.get(id).id;
 
-                    Category curCategory = new Category(TempN);
-                    curCategory.setCategoryId(TempCatId);
+            Category curCategory = new Category(TempN);
+            curCategory.setCategoryId(TempCatId);
 
-                    categories.add(curCategory);
+            categories.add(curCategory);
+            catbuttons.get(id).setVisibility(View.VISIBLE);
+            catbuttons.get(id).setText(categories.get(id).getName());
 
-                    for (int idf = 0; idf< flashcardDBList.size() ; idf++) {
-                        // loading flashcards from the database
-                        if (flashcardDBList.get(idf).categoryId == TempCatId){
-                            TempF = flashcardDBList.get(idf).frontSide;
-                            TempB = flashcardDBList.get(idf).backSide;
-                            categories.get(id).getFlashcards().add(new Flashcard(TempF, TempB) );
-                        }
+            int finalId = id;
+            catbuttons.get(id).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    Intent intentC = new Intent (MainActivity.this,CategoryView.class);
+                    intentC.putExtra("co", categories.get(finalId));
+                    startActivity(intentC);
+                }
+            });
+
+
+            for (int idf = 0; idf < flashcardDBList.size(); idf++) {
+                // loading flashcards from the database
+                if (flashcardDBList.get(idf).categoryId == TempCatId) {
+                    TempF = flashcardDBList.get(idf).frontSide;
+                    TempB = flashcardDBList.get(idf).backSide;
+                    categories.get(id).getFlashcards().add(new Flashcard(TempF, TempB));
                 }
 
+            }
+        }
 
                 //Erase the database entirely
                 db.flashcardsDao().deleteAllFlashcards();

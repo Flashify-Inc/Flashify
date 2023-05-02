@@ -35,7 +35,7 @@ public class FlashcardView extends AppCompatActivity {
         FlashC.setTextOff(c.getFlashcards().get(index).getFront());
         FlashC.setTextOn(c.getFlashcards().get(index).getBack());
 
-         if( index+1 > c.getFlashcards().size() - 1 )
+        if( index+1 > c.getFlashcards().size() - 1 )
             nextf.setVisibility(View.INVISIBLE);
 
         if( index == 0 )
