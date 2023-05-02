@@ -13,14 +13,9 @@ public interface CategoryDao {
     List<CategoryDB> getAllCategories();
 
     @Insert
-    void insertCategory(CategoryDB categoryDB);
+    long insertCategory(CategoryDB categoryDB);
 
     @Query("DELETE FROM CategoryDB")
     void deleteAllCategories();
-
-
-
-    //@Delete
-    //void deleteCategory(Category category);
 
 }
