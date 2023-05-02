@@ -9,12 +9,19 @@ import java.util.ArrayList;
 
 
 public class Category implements Parcelable {
+    private long categoryId;
     private String name;
     private ArrayList<Flashcard> Flashcards;
 
     public Category(String name) {
         this.name = name;
         this.Flashcards = new ArrayList<>();
+    }
+
+    public long getCategoryId(){return categoryId;}
+
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {

@@ -11,11 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton addBtn, manualBtn, magicBtn;
+    Button categoryBtn1, categoryBtn2;
 
-
+    private AppDatabase db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,9 +60,14 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
+        // CONNECTING THE DATABASE
+        db = AppDatabase.getInstance(getApplicationContext());
+
+
         /***************************   INITIALIZATION   ******************************/
 
-                // DATABASE DUMMY DATA
+                // YOUNESS' DUMMY DATA
+                /*
                 ArrayList<Category> database = new ArrayList<Category>();
                 database.add(new Category("Geography" ));
                 database.add(new Category("Chemistry" ));;
@@ -68,41 +76,67 @@ public class MainActivity extends AppCompatActivity {
                 database.get(0).getFlashcards().add(new Flashcard ("What is the capital of Italy ?", "Rome"));
                 //database.get(1).getFlashcards().add(new Flashcard ("H2O","the water chemical compound"));
                 database.get(1).getFlashcards().add(new Flashcard ("dilution","the act of decreasing the concentration of a soluble"));
-                database.get(2).getFlashcards().add(new Flashcard ("OBEY","obey the lord"));
-                database.get(2).getFlashcards().add(new Flashcard ("DISOBEY","die"));
-                database.get(2).getFlashcards().add(new Flashcard ("Angry","you also die"));
+*/
+                // Getting everything from the database and storing it into CategoryDB and FlashcardsDB lists.
+                List<CategoryDB> categoryDBList = db.categoryDao().getAllCategories();
+                List<FlashcardDB> flashcardDBList = db.flashcardsDao().getAllFlashcards();
+                //Log.d("DavidDebug", flashcardDBList.get(0).frontSide);
 
-
-        // Category initialization
+                // Category initialization
                 ArrayList<Category> categories = new ArrayList<Category>();
-                String TempN, TempF, TempB;
 
-                for(int id = 0; id< database.size() ; id++) {
+                //Taking everything from categoryDBList and flashcardDBList and putting them in local categories list
+                String TempN, TempF = "", TempB = "";
+                long TempCatId;
+
+
+        for(int id = 0; id< categoryDBList.size() ; id++) {
                     // loading category from the database
-                    TempN = database.get(id).getName();
-                    categories.add(new Category(TempN));
-                    catbuttons.get(id).setVisibility(View.VISIBLE);
-                    catbuttons.get(id).setText(categories.get(id).getName());
+                    TempN = categoryDBList.get(id).categoryName;
+                    TempCatId = categoryDBList.get(id).id;
 
-                    int finalId = id;
-                    catbuttons.get(id).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                    Category curCategory = new Category(TempN);
+                    curCategory.setCategoryId(TempCatId);
 
-                            Intent intentC = new Intent (MainActivity.this,CategoryView.class);
-                            intentC.putExtra("co", categories.get(finalId));
-                            startActivity(intentC);
-                        }
-                    });
+                    categories.add(curCategory);
 
-
-                    for (int idf = 0; idf< database.get(id).getFlashcards().size() ; idf++) {
+                    for (int idf = 0; idf< flashcardDBList.size() ; idf++) {
                         // loading flashcards from the database
-                        TempF = database.get(id).getFlashcards().get(idf).getFront();
-                        TempB = database.get(id).getFlashcards().get(idf).getBack();
-                        categories.get(id).getFlashcards().add(new Flashcard(TempF, TempB) );
+                        if (flashcardDBList.get(idf).categoryId == TempCatId){
+                            TempF = flashcardDBList.get(idf).frontSide;
+                            TempB = flashcardDBList.get(idf).backSide;
+                            categories.get(id).getFlashcards().add(new Flashcard(TempF, TempB) );
+                        }
+
+                }
+
+
+                //Erase the database entirely
+                db.flashcardsDao().deleteAllFlashcards();
+                db.categoryDao().deleteAllCategories();
+
+
+                // Creating new CategoryDBs and FlashcardDBs from Category and Flashcard ArrayLists
+
+                /*
+                Category newCategory = new Category("");
+                Flashcard newFlashcard = new Flashcard("Mitosis", "whatever Mitosis is");
+                newCategory.getFlashcards().add(newFlashcard);
+                categories.add(newCategory);
+                */
+
+                // UPDATING THE DATABASE
+                for (int i = 0; i < categories.size(); i++){
+                    CategoryDB curCategoryDB = new CategoryDB(categories.get(i).getName());
+                    long curCategoryDB_ID = db.categoryDao().insertCategory(curCategoryDB);
+                    for (int j = 0; j < categories.get(i).getFlashcards().size(); j++){
+                        FlashcardDB curFlashcardDB =  new FlashcardDB(categories.get(i).getFlashcards().get(j).getFront(),
+                                categories.get(i).getFlashcards().get(j).getBack(), curCategoryDB_ID);
+                        db.flashcardsDao().insertFlashcard(curFlashcardDB);
                     }
                 }
+
+
         /********************************************************************************/
 
         /*****  MAKE A LIST OF BUTTONS TO (setNAME & setVISIBLITY) EACH TIME A CATEGORY IS CREATED  *****/

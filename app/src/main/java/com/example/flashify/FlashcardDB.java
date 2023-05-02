@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 
 
 @Entity (foreignKeys = @ForeignKey(entity = CategoryDB.class, parentColumns = "id",
-        childColumns = "category_id") )
+        childColumns = "category_id", onDelete = ForeignKey.CASCADE) )
 public class FlashcardDB {
     @PrimaryKey(autoGenerate = true)
     public long flashcardId;
