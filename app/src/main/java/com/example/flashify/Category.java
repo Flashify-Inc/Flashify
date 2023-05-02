@@ -2,18 +2,19 @@ package com.example.flashify;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 
 public class Category implements Parcelable {
     private String name;
-    private LinkedList<Flashcard> Flashcards;
+    private ArrayList<Flashcard> Flashcards;
 
     public Category(String name) {
         this.name = name;
-        this.Flashcards = new LinkedList<>();
+        this.Flashcards = new ArrayList<>();
     }
 
     public String getName() {
@@ -24,11 +25,11 @@ public class Category implements Parcelable {
         this.name = name;
     }
 
-    public LinkedList<Flashcard> getFlashcards() {
+    public ArrayList<Flashcard> getFlashcards() {
         return Flashcards;
     }
 
-    public void setFlashcards(LinkedList<Flashcard> flashcards) {
+    public void setFlashcards(ArrayList<Flashcard> flashcards) {
         Flashcards = flashcards;
     }
 
@@ -49,7 +50,7 @@ public class Category implements Parcelable {
 
     protected Category(Parcel in) {
         name = in.readString();
-        Flashcards = new LinkedList<>();
+        Flashcards = new ArrayList<>();
         in.readTypedList(Flashcards, Flashcard.CREATOR);
     }
 

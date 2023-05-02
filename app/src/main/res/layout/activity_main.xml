@@ -3,34 +3,86 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#F8F8F8"
     android:layout_height="match_parent"
+    android:background="#F8F8F8"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/btnCategory1"
         android:layout_width="245dp"
         android:layout_height="62dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="25dp"
         android:background="#6200ED"
         android:backgroundTint="#F8F8F8"
         android:text=" Category 1 "
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.391" />
+        app:layout_constraintVertical_bias="0.312" />
 
     <Button
         android:id="@+id/btnCategory2"
         android:layout_width="244dp"
         android:layout_height="74dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
         android:text=" Category 2 "
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.525" />
+        app:layout_constraintVertical_bias="0.42" />
+
+    <Button
+        android:id="@+id/btnCategory3"
+        android:layout_width="244dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text=" Category 3"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.532" />
+
+    <Button
+        android:id="@+id/btnCategory4"
+        android:layout_width="244dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text=" Category 4"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.648" />
+
+    <Button
+        android:id="@+id/btnCategory5"
+        android:layout_width="244dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text=" Category 5"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.764" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/openBtn"
@@ -39,47 +91,44 @@
         android:backgroundTint="@color/purple_500"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCategory1"
-        app:layout_constraintVertical_bias="0.848"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.958"
         app:srcCompat="@drawable/ic_add" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/manualBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
         android:clickable="true"
         android:focusable="true"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/openBtn"
-        app:layout_constraintEnd_toEndOf="@+id/openBtn"
-        app:layout_constraintEnd_toStartOf="@+id/magicBtn"
-        app:layout_constraintHorizontal_bias="0.956"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.34"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCategory2"
-        app:layout_constraintVertical_bias="0.923"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.871"
         app:srcCompat="@drawable/baseline_mode_edit_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/magicBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
         android:clickable="true"
         android:focusable="true"
         android:onClick="launchMagicView"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.061"
-        app:layout_constraintStart_toStartOf="@+id/openBtn"
-        app:layout_constraintTop_toBottomOf="@+id/btnCategory2"
-        app:layout_constraintVertical_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.656"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.871"
         app:srcCompat="@drawable/baseline_flare_24" />
 
     <Switch
@@ -103,7 +152,7 @@
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.062"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/img" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
