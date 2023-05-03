@@ -26,9 +26,9 @@ public class FlashcardView extends AppCompatActivity {
         prevf = findViewById(R.id.prevF);
 
         // retrieve the data
-        Category c = (Category) getIntent().getParcelableExtra("co");
+        Category c = (Category) getIntent().getParcelableExtra("categoryNumber");
         Bundle extras = getIntent().getExtras();
-       index = extras.getInt("ind");
+        index = extras.getInt("i");
 
         // view the flashcard
         FlashC.setText(c.getFlashcards().get(index).getFront());
