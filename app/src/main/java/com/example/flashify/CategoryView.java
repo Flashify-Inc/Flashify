@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 public class CategoryView extends AppCompatActivity {
     TextView catText;
     Button fbtn1, fbtn2, fbtn3, fbtn4 ;
+    Switch edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,45 @@ public class CategoryView extends AppCompatActivity {
 
 
 /******************************************************************/
+        edit = findViewById(R.id.editBtn2);
 
+        ArrayList<ImageButton> dlts = new ArrayList<ImageButton>();
+        // delete buttons
+        dlts.add(findViewById(R.id.dltf1));
+        dlts.add(findViewById(R.id.dltf2));
+        dlts.add(findViewById(R.id.dltf3));
+        dlts.add(findViewById(R.id.dltf4));
+
+        //edit category buttons
+        ArrayList<ImageButton> Renameflashcards = new ArrayList<ImageButton>();
+        Renameflashcards.add(findViewById(R.id.rn1));
+        Renameflashcards.add(findViewById(R.id.rn2));
+        Renameflashcards.add(findViewById(R.id.rn3));
+        Renameflashcards.add(findViewById(R.id.rn4));
+;
+
+        /********* edit toggle ************/
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean isEditOn = edit.isChecked();
+                // toggle on
+                if (isEditOn) {
+                    for (int dor=0; dor<c.getFlashcards().size(); dor++){
+                        dlts.get(dor).setVisibility(View.VISIBLE);
+                        Renameflashcards.get(dor).setVisibility(View.VISIBLE);
+                    }
+                    // toggle off
+                } else {
+                    for (int biha=0; biha<c.getFlashcards().size(); biha++){
+                        dlts.get(biha).setVisibility(View.INVISIBLE);
+                        Renameflashcards.get(biha).setVisibility(View.INVISIBLE);
+                    }
+
+                }
+            }
+        });
     }
 
 }
