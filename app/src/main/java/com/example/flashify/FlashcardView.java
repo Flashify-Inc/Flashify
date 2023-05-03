@@ -3,6 +3,7 @@ package com.example.flashify;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
@@ -28,7 +29,9 @@ public class FlashcardView extends AppCompatActivity {
         // retrieve the data
         Category c = (Category) getIntent().getParcelableExtra("categoryNumber");
         Bundle extras = getIntent().getExtras();
-        index = extras.getInt("i");
+        index = extras.getInt("ind");
+        Log.d("IND: ", String.valueOf(index ));
+
 
         // view the flashcard
         FlashC.setText(c.getFlashcards().get(index).getFront());
@@ -36,10 +39,10 @@ public class FlashcardView extends AppCompatActivity {
         FlashC.setTextOn(c.getFlashcards().get(index).getBack());
 
         if( index+1 > c.getFlashcards().size() - 1 )
-            nextf.setVisibility(View.INVISIBLE);
+            {nextf.setVisibility(View.INVISIBLE);}
 
         if( index == 0 )
-            prevf.setVisibility(View.INVISIBLE);
+            {prevf.setVisibility(View.INVISIBLE);}
 
             // next button
 
