@@ -31,7 +31,7 @@ public class CategoryView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_view);
 
-        LinearLayout buttonLayout = findViewById(R.id.categoryLinearLayout);
+        LinearLayout outerLinearLayout = findViewById(R.id.categoryLinearLayout);
 
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(0, convertDptoPx(90));
         buttonParams.weight = 4;
@@ -72,11 +72,13 @@ public class CategoryView extends AppCompatActivity {
             editBtn.setImageResource(R.drawable.baseline_mode_edit_24);
             editBtn.setBackgroundColor(Color.TRANSPARENT);
             editBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            editBtn.setVisibility(View.INVISIBLE);
             editBtn.setLayoutParams(editButtonParams);
 
             ImageButton deleteBtn = new ImageButton(this);
             deleteBtn.setImageResource(R.drawable.icons8_remove_96);
             deleteBtn.setBackgroundColor(Color.TRANSPARENT);
+            deleteBtn.setVisibility(View.INVISIBLE);
             deleteBtn.setLayoutParams(deleteButtonParams);
 
             // Add the dynamic button and two smaller image buttons to the LinearLayout
@@ -95,7 +97,7 @@ public class CategoryView extends AppCompatActivity {
                 }
             });
 
-            buttonLayout.addView(layout);
+            outerLinearLayout.addView(layout);
         }
 
 
@@ -105,20 +107,9 @@ public class CategoryView extends AppCompatActivity {
 
         edit = findViewById(R.id.editBtn2);
 
-        ArrayList<ImageButton> dlts = new ArrayList<ImageButton>();
         // delete buttons
-        dlts.add(findViewById(R.id.dltf1));
-        dlts.add(findViewById(R.id.dltf2));
-        dlts.add(findViewById(R.id.dltf3));
-        dlts.add(findViewById(R.id.dltf4));
 
-        //edit category buttons
-        ArrayList<ImageButton> Renameflashcards = new ArrayList<ImageButton>();
-        Renameflashcards.add(findViewById(R.id.rn1));
-        Renameflashcards.add(findViewById(R.id.rn2));
-        Renameflashcards.add(findViewById(R.id.rn3));
-        Renameflashcards.add(findViewById(R.id.rn4));
-        ;
+        //edit category buttons;
 
         /********* edit toggle ************/
 
@@ -127,19 +118,16 @@ public class CategoryView extends AppCompatActivity {
             public void onClick(View view) {
                 boolean isEditOn = edit.isChecked();
                 // toggle on
-                if (isEditOn) {
-                    for (int dor = 0; dor < c.getFlashcards().size(); dor++) {
-                        dlts.get(dor).setVisibility(View.VISIBLE);
-                        Renameflashcards.get(dor).setVisibility(View.VISIBLE);
+                    for (int innerLinearLayoutInd = 0; innerLinearLayoutInd < c.getFlashcards().size(); innerLinearLayoutInd++) {
+                        LinearLayout innerLinearLayout = (LinearLayout) outerLinearLayout.getChildAt(innerLinearLayoutInd);
+                        if (isEditOn) {
+                            innerLinearLayout.getChildAt(0).setVisibility(View.VISIBLE);
+                            innerLinearLayout.getChildAt(2).setVisibility(View.VISIBLE);
+                        } else {
+                            innerLinearLayout.getChildAt(0).setVisibility(View.INVISIBLE);
+                            innerLinearLayout.getChildAt(2).setVisibility(View.INVISIBLE);
+                        }
                     }
-                    // toggle off
-                } else {
-                    for (int biha = 0; biha < c.getFlashcards().size(); biha++) {
-                        dlts.get(biha).setVisibility(View.INVISIBLE);
-                        Renameflashcards.get(biha).setVisibility(View.INVISIBLE);
-                    }
-
-                }
             }
         });
     }
