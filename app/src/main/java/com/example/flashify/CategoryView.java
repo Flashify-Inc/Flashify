@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.ImageButton;
@@ -31,18 +32,57 @@ public class CategoryView extends AppCompatActivity {
         setContentView(R.layout.activity_category_view);
 
         LinearLayout buttonLayout = findViewById(R.id.categoryLinearLayout);
-        buttonLayout.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(convertDptoPx(274), convertDptoPx(107));
-        layoutParams.setMargins(0, 0, 0, convertDptoPx(20));
+
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(0, convertDptoPx(90));
+        buttonParams.weight = 4;
+
+        LinearLayout.LayoutParams editButtonParams = new LinearLayout.LayoutParams(0, convertDptoPx(60));
+        editButtonParams.weight = 1;
+        editButtonParams.leftMargin = convertDptoPx(10);
+
+        LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(0, convertDptoPx(60));
+        deleteButtonParams.weight = 1;
+        deleteButtonParams.rightMargin = convertDptoPx(10);
+
+
+
+        LinearLayout.LayoutParams innerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        innerLayoutParams.setMargins(convertDptoPx(15), 0, convertDptoPx(15), convertDptoPx(20));
 
         Category c = (Category) getIntent().getParcelableExtra("categoryNumber");
 
 
         for (int i = 0; i < c.getFlashcards().size(); i++) {
+            // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
+            LinearLayout layout = new LinearLayout(this);
+            layout.setLayoutParams(innerLayoutParams);
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            layout.setGravity(Gravity.CENTER);
+
+
+            // Create the dynamic button
             Button button = new Button(this);
             button.setText(c.getFlashcard(i).getFront());
-            button.setBackgroundColor(Color.rgb(98, 00, 237));
-            button.setLayoutParams(layoutParams);
+            button.setBackgroundColor(0xFF6200ED);
+            button.setLayoutParams(buttonParams);
+            button.setTextColor(0xFFFFFFFF);
+
+            // Create the two smaller image buttons
+            ImageButton editBtn = new ImageButton(this);
+            editBtn.setImageResource(R.drawable.baseline_mode_edit_24);
+            editBtn.setBackgroundColor(Color.TRANSPARENT);
+            editBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            editBtn.setLayoutParams(editButtonParams);
+
+            ImageButton deleteBtn = new ImageButton(this);
+            deleteBtn.setImageResource(R.drawable.icons8_remove_96);
+            deleteBtn.setBackgroundColor(Color.TRANSPARENT);
+            deleteBtn.setLayoutParams(deleteButtonParams);
+
+            // Add the dynamic button and two smaller image buttons to the LinearLayout
+            layout.addView(deleteBtn);
+            layout.addView(button);
+            layout.addView(editBtn);
 
             int ind = i;
             button.setOnClickListener(new View.OnClickListener() {
@@ -54,8 +94,10 @@ public class CategoryView extends AppCompatActivity {
                     startActivity(intentF);
                 }
             });
-            buttonLayout.addView(button);
+
+            buttonLayout.addView(layout);
         }
+
 
         // localize the interactive buttons in the screen
         catText = findViewById(R.id.textCategoryView);

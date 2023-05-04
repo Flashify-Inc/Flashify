@@ -15,7 +15,6 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/BtnFlashcard1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.327"
         app:srcCompat="@drawable/baseline_mode_edit_24" />
@@ -29,7 +28,6 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnFlashcard3"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.629"
         app:srcCompat="@drawable/baseline_mode_edit_24" />
@@ -43,7 +41,6 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnFlashcard4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.787"
         app:srcCompat="@drawable/baseline_mode_edit_24" />
@@ -57,7 +54,6 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnFlashcard2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.482"
         app:srcCompat="@drawable/baseline_mode_edit_24" />
@@ -129,6 +125,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:contentDescription="Create a flashcard to view flashcards!"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -145,6 +142,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/backbtn2"
+        android:contentDescription="Back"
         android:layout_width="53dp"
         android:layout_height="63dp"
         android:backgroundTint="#BDBDBD"
