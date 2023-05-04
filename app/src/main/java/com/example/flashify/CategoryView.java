@@ -31,8 +31,7 @@ public class CategoryView extends AppCompatActivity {
         LinearLayout buttonLayout = findViewById(R.id.categoryLinearLayout);
         buttonLayout.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(convertDptoPx(274), convertDptoPx(107));
-        layoutParams.setMargins(0, 0, 0, convertDptoPx(30));
-
+        layoutParams.setMargins(0, 0, 0, convertDptoPx(20));
 
         Category c = (Category) getIntent().getParcelableExtra("categoryNumber");
 
@@ -60,7 +59,7 @@ public class CategoryView extends AppCompatActivity {
         catText = findViewById(R.id.textCategoryView);
         catText.setText(c.getName());
 
-
+/********************STATIC APPROACH TO ADDING BUTTONS************************
         // Flashcard buttons
 //        ArrayList<Button> FshButtons = new ArrayList<>();
 //        fbtn1 = findViewById(R.id.BtnFlashcard1);
@@ -72,30 +71,30 @@ public class CategoryView extends AppCompatActivity {
 //        FshButtons.add(fbtn3);
 //        FshButtons.add(fbtn4);
 
-/************************* INITIALIZER *****************************/
-//
-//            // retrieve the category object from the previous activity
-//            catText.setText(c.getName());
-//
-//            // initialize the fsh buttons
-//            for (int id = 0; id < c.getFlashcards().size() ; id++){
-//                FshButtons.get(id).setText(c.getFlashcards().get(id).getFront());
-//                FshButtons.get(id).setVisibility(View.VISIBLE);
-//                int finalId = id;
-//                FshButtons.get(id).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent intentF = new Intent (CategoryView.this, FlashcardView.class);
-//                        intentF.putExtra("co",c);
-//                        int index = finalId;
-//                        intentF.putExtra("ind",index);
-//                        startActivity(intentF);
-//                    }
-//                });
-//
-//            }
-//
-//
+/************************* INITIALIZER *****************************
+
+            // retrieve the category object from the previous activity
+            catText.setText(c.getName());
+
+            // initialize the fsh buttons
+            for (int id = 0; id < c.getFlashcards().size() ; id++){
+                FshButtons.get(id).setText(c.getFlashcards().get(id).getFront());
+                FshButtons.get(id).setVisibility(View.VISIBLE);
+                int finalId = id;
+                FshButtons.get(id).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intentF = new Intent (CategoryView.this, FlashcardView.class);
+                        intentF.putExtra("co",c);
+                        int index = finalId;
+                        intentF.putExtra("ind",index);
+                        startActivity(intentF);
+                    }
+                });
+
+            }
+ */
+
 ///******************************************************************/
 //
     }
