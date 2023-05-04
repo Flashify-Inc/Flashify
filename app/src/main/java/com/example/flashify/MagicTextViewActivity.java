@@ -22,7 +22,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MagicTextView extends AppCompatActivity {
+public class MagicTextViewActivity extends AppCompatActivity {
 
     String apiResponse;
     String userInputText;
@@ -41,7 +41,7 @@ public class MagicTextView extends AppCompatActivity {
                 userInputText = editText.getText().toString();
 
                 if (userInputText.length() > 3000) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MagicTextView.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MagicTextViewActivity.this);
                     builder.setMessage(getString(R.string.lengthWarning))
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {

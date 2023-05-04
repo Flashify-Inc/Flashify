@@ -10,7 +10,7 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class FlashcardView extends AppCompatActivity {
+public class FlashcardViewActivity extends AppCompatActivity {
     ToggleButton FlashC;
     int index;
     ImageButton nextf, prevf;

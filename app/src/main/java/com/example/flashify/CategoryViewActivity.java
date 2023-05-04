@@ -4,26 +4,20 @@ package com.example.flashify;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
-public class CategoryView extends AppCompatActivity {
+public class CategoryViewActivity extends AppCompatActivity {
     TextView catText;
-    Button fbtn1, fbtn2, fbtn3, fbtn4 ;
     Switch edit;
 
     @Override
@@ -31,7 +25,7 @@ public class CategoryView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_view);
 
-        LinearLayout outerLinearLayout = findViewById(R.id.categoryLinearLayout);
+        LinearLayout outerLinearLayout = findViewById(R.id.flashcardLinearLayout);
 
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(0, convertDptoPx(90));
         buttonParams.weight = 4;
@@ -49,7 +43,7 @@ public class CategoryView extends AppCompatActivity {
         LinearLayout.LayoutParams innerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         innerLayoutParams.setMargins(convertDptoPx(15), 0, convertDptoPx(15), convertDptoPx(20));
 
-        Category c = (Category) getIntent().getParcelableExtra("categoryNumber");
+        Category c = (Category) getIntent().getParcelableExtra("category");
 
 
         for (int i = 0; i < c.getFlashcards().size(); i++) {
@@ -90,7 +84,7 @@ public class CategoryView extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intentF = new Intent(CategoryView.this, FlashcardView.class);
+                    Intent intentF = new Intent(CategoryViewActivity.this, FlashcardViewActivity.class);
                     intentF.putExtra("categoryNumber", c);
                     intentF.putExtra("ind", ind);
                     startActivity(intentF);

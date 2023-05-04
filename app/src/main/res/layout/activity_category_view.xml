@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CategoryView">
+    tools:context=".CategoryViewActivity">
 
     <TextView
         android:id="@+id/textCategoryView"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textCategoryView">
 
         <LinearLayout
-            android:id="@+id/categoryLinearLayout"
+            android:id="@+id/flashcardLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"></LinearLayout>
