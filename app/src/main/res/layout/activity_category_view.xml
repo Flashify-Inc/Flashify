@@ -125,78 +125,23 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.14" />
+        app:layout_constraintVertical_bias="0.103" />
 
-    <Button
-        android:id="@+id/BtnFlashcard1"
-        android:layout_width="274dp"
-        android:layout_height="107dp"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="#6200ED"
-        android:onClick="launchFlashcardView"
-        android:text="Flashcard 1"
-        android:textColor="#FFFFFF"
-        android:visibility="invisible"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textCategoryView"
-        app:layout_constraintVertical_bias="0.087" />
+        app:layout_constraintTop_toBottomOf="@+id/textCategoryView">
 
-    <Button
-        android:id="@+id/btnFlashcard3"
-        android:layout_width="274dp"
-        android:layout_height="107dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#6200ED"
-        android:onClick="launchFlashcardView"
-        android:text="Flashcard 3"
-        android:textColor="#FFFFFF"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textCategoryView"
-        app:layout_constraintVertical_bias="0.545" />
-
-    <Button
-        android:id="@+id/btnFlashcard4"
-        android:layout_width="274dp"
-        android:layout_height="107dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="#6200ED"
-        android:onClick="launchFlashcardView"
-        android:text="Flashcard 4"
-        android:textColor="#FFFFFF"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textCategoryView"
-        app:layout_constraintVertical_bias="0.784" />
-
-    <Button
-        android:id="@+id/btnFlashcard2"
-        android:layout_width="274dp"
-        android:layout_height="107dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="#6200ED"
-        android:onClick="launchFlashcardView"
-        android:text="Flashcard 2"
-        android:textColor="#FFFFFF"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textCategoryView"
-        app:layout_constraintVertical_bias="0.299" />
+        <LinearLayout
+            android:id="@+id/categoryLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/backbtn2"

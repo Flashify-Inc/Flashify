@@ -21,6 +21,8 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    static ArrayList<Category> categories;
     FloatingActionButton addBtn, manualBtn, magicBtn;
     Button categoryBtn1, categoryBtn2;
     Switch edit;
@@ -113,11 +115,15 @@ public class MainActivity extends AppCompatActivity {
                 FlashcardDB fl3 = new FlashcardDB("hydrochloric acid formula", "HCl", chemCat_ID);
                 FlashcardDB fl4 = new FlashcardDB("sulfuric acid formula", "H2SO4", chemCat_ID);
                 FlashcardDB fl5 = new FlashcardDB("Mitosis", "Whatever Mitosis is", chemCat_ID);
+                FlashcardDB fl6 = new FlashcardDB("chem shiz", ":(", chemCat_ID);
+                FlashcardDB fl7 = new FlashcardDB("whats the chemical formula of your mom", "ObESe", chemCat_ID);
                 db.flashcardsDao().insertFlashcard(fl1);
                 db.flashcardsDao().insertFlashcard(fl2);
                 db.flashcardsDao().insertFlashcard(fl3);
                 db.flashcardsDao().insertFlashcard(fl4);
                 db.flashcardsDao().insertFlashcard(fl5);
+                db.flashcardsDao().insertFlashcard(fl6);
+                db.flashcardsDao().insertFlashcard(fl7);
 
 
 
@@ -127,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("DavidDebug", flashcardDBList.get(0).frontSide);
 
                 // Category initialization
-                ArrayList<Category> categories = new ArrayList<Category>();
+                categories = new ArrayList<Category>();
 
                 //Taking everything from categoryDBList and flashcardDBList and putting them in local categories list
                 String TempN, TempF = "", TempB = "";
@@ -158,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         Intent intentC = new Intent (MainActivity.this,CategoryView.class);
-                        intentC.putExtra("co", categories.get(finalId));
+                        intentC.putExtra("categoryNumber", categories.get(finalId));
                         startActivity(intentC);
                     }
                 });
