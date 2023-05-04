@@ -129,27 +129,62 @@ public class MainActivity extends AppCompatActivity {
         innerLayoutParams.setMargins(convertDptoPx(15), 0, convertDptoPx(15), convertDptoPx(20));
 
 
-        for (Category category : categories) {
+        for (int categoryInd = 0; categoryInd < categories.size(); categoryInd++) {
             // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
-            LinearLayout layout = new LinearLayout(this);
-            layout.setLayoutParams(innerLayoutParams);
-            layout.setOrientation(LinearLayout.HORIZONTAL);
-            layout.setGravity(Gravity.CENTER);
+            LinearLayout innerLinearLayout = new LinearLayout(this);
+            innerLinearLayout.setLayoutParams(innerLayoutParams);
+            innerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            innerLinearLayout.setGravity(Gravity.CENTER);
 
             // Create the dynamic button
             Button button = new Button(this);
-            button.setText(category.getName());
+            button.setText(categories.get(categoryInd).getName());
             button.setBackgroundColor(0xFF6200ED);
             button.setLayoutParams(buttonParams);
             button.setTextColor(0xFFFFFFFF);
 
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentF = new Intent(MainActivity.this, CategoryViewActivity.class);
+                    intentF.putExtra("category", categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)));
+                    startActivity(intentF);
+                }
+            });
+
             // Create the two smaller image buttons
-            ImageButton editBtn = new ImageButton(this);
-            editBtn.setImageResource(R.drawable.baseline_mode_edit_24);
-            editBtn.setBackgroundColor(Color.TRANSPARENT);
-            editBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            editBtn.setVisibility(View.INVISIBLE);
-            editBtn.setLayoutParams(editButtonParams);
+            ImageButton renameBtn = new ImageButton(this);
+            renameBtn.setImageResource(R.drawable.baseline_mode_edit_24);
+            renameBtn.setBackgroundColor(Color.TRANSPARENT);
+            renameBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            renameBtn.setVisibility(View.INVISIBLE);
+            renameBtn.setLayoutParams(editButtonParams);
+
+            renameBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Create an EditText view to get user input
+                    final EditText inputView = new EditText(MainActivity.this);
+
+                    // Create a dialog with the EditText view as its content
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Enter the new category name: ")
+                            .setView(inputView)
+                            .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Get the text entered by the user
+                                    String inputText = inputView.getText().toString();
+
+                                    // Set the text of the button to the user input
+                                    button.setText(inputText);
+                                    categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
+                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+                }
+            });
 
             ImageButton deleteBtn = new ImageButton(this);
             deleteBtn.setImageResource(R.drawable.icons8_remove_96);
@@ -157,20 +192,21 @@ public class MainActivity extends AppCompatActivity {
             deleteBtn.setVisibility(View.INVISIBLE);
             deleteBtn.setLayoutParams(deleteButtonParams);
 
-            // Add the dynamic button and two smaller image buttons to the LinearLayout
-            layout.addView(deleteBtn);
-            layout.addView(button);
-            layout.addView(editBtn);
-            button.setOnClickListener(new View.OnClickListener() {
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intentF = new Intent(MainActivity.this, CategoryViewActivity.class);
-                    intentF.putExtra("category", category);
-                    startActivity(intentF);
+
+                    categories.remove(outerLinearLayout.indexOfChild(innerLinearLayout));
+                    outerLinearLayout.removeView(innerLinearLayout);
                 }
             });
 
-            outerLinearLayout.addView(layout);
+            // Add the dynamic button and two smaller image buttons to the LinearLayout
+            innerLinearLayout.addView(deleteBtn);
+            innerLinearLayout.addView(button);
+            innerLinearLayout.addView(renameBtn);
+
+            outerLinearLayout.addView(innerLinearLayout);
         }
 
         /********* edit toggle ************/
@@ -191,24 +227,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-//
-//
-//        // display magic & manual button
-//        addBtn.setOnClickListener(new View.OnClickListener() {
-//                    @SuppressLint("RestrictedApi")
-//                    @Override
-//                    public void onClick(View V) {
-//                        if (magicBtn.getVisibility() == View.VISIBLE){
-//                            magicBtn.setVisibility(View.INVISIBLE);
-//                            manualBtn.setVisibility(View.INVISIBLE);
-//                        }
-//                        else {
-//                            magicBtn.setVisibility(View.VISIBLE);
-//                            manualBtn.setVisibility(View.VISIBLE);
-//                        }
-//                    }
-//                }
-//        );
+
+
+        // display magic & manual button
+        addBtn.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("RestrictedApi")
+                    @Override
+                    public void onClick(View V) {
+                        if (magicBtn.getVisibility() == View.VISIBLE){
+                            magicBtn.setVisibility(View.INVISIBLE);
+                            manualBtn.setVisibility(View.INVISIBLE);
+                        }
+                        else {
+                            magicBtn.setVisibility(View.VISIBLE);
+                            manualBtn.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+        );
 //
 //        // CONNECTING THE DATABASE
 //
@@ -240,78 +276,7 @@ public class MainActivity extends AppCompatActivity {
 //        ArrayList<ImageButton> RenameCategories = new ArrayList<ImageButton>();
 //
 //
-//
-//        /********* delete a category ************/
-//        for (int biha = 0; biha < dlts.size(); biha++) {
-//            int finalBiha = biha;
-//            dlts.get(biha).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                    categories.remove(finalBiha);
-//
-//                    catbuttons.get(categories.size()).setVisibility(View.GONE);
-//                    dlts.get(categories.size()).setVisibility(View.GONE);
-//                    RenameCategories.get(categories.size()).setVisibility(View.GONE);
-//
-//
-//                    // from beginning
-//                    if( finalBiha == 0 )
-//                    {
-//                        for (int hna =0; hna < categories.size(); hna++ )
-//                            catbuttons.get(hna).setText(catbuttons.get(hna+1).getText());
-//                    }
-//                        // from the middle
-//                        else if( finalBiha != categories.size() )
-//                        {
-//                            for (int lhih = finalBiha; lhih < categories.size(); lhih++ )
-//                                catbuttons.get(lhih).setText(catbuttons.get(lhih+1).getText());
-//                        }
-//
-//                        // neutralize the add button
-//                    catbuttons.get(categories.size()).setText("+ ADD CATEGORY ");
-//                    catbuttons.get(categories.size()).setBackgroundColor(Color.parseColor("#BA56DD"));
-//
-//                        // to not leave the front empty
-//                    if( categories.size() == 0)
-//                        catbuttons.get(0).setVisibility(View.VISIBLE);
-//
-//
-//                }
-//            });
-//        }
-//
-//
-//        /********* rename a category  ************/
-//        for (int chibani = 0; chibani < categories.size(); chibani++) {
-//            int finalBiha = chibani;
-//            RenameCategories.get(chibani).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    // Create an EditText view to get user input
-//                    final EditText inputView = new EditText(MainActivity.this);
-//
-//                    // Create a dialog with the EditText view as its content
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                    builder.setTitle("Enter the new category name: ")
-//                            .setView(inputView)
-//                            .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    // Get the text entered by the user
-//                                    String inputText = inputView.getText().toString();
-//
-//                                    // Set the text of the button to the user input
-//                                    catbuttons.get(finalBiha).setText(inputText);
-//                                    categories.get(finalBiha).setName(inputText);
-//                                }
-//                            })
-//                            .setNegativeButton("Cancel", null)
-//                            .show();
-//                }
-//            });
-//        }
-//
+
 //        // add a category
 //        manualBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
