@@ -31,7 +31,7 @@ public class CategoryView extends AppCompatActivity {
         setContentView(R.layout.activity_category_view);
 
         LinearLayout buttonLayout = findViewById(R.id.categoryLinearLayout);
-        buttonLayout.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
+        buttonLayout.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(convertDptoPx(274), convertDptoPx(107));
         layoutParams.setMargins(0, 0, 0, convertDptoPx(20));
 
@@ -46,13 +46,13 @@ public class CategoryView extends AppCompatActivity {
 
             int ind = i;
             button.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      Intent intentF = new Intent (CategoryView.this, FlashcardView.class);
-                      intentF.putExtra("categoryNumber",c);
-                      intentF.putExtra("ind",ind);
-                      startActivity(intentF);
-                  }
+                @Override
+                public void onClick(View view) {
+                    Intent intentF = new Intent(CategoryView.this, FlashcardView.class);
+                    intentF.putExtra("categoryNumber", c);
+                    intentF.putExtra("ind", ind);
+                    startActivity(intentF);
+                }
             });
             buttonLayout.addView(button);
         }
@@ -60,6 +60,47 @@ public class CategoryView extends AppCompatActivity {
         // localize the interactive buttons in the screen
         catText = findViewById(R.id.textCategoryView);
         catText.setText(c.getName());
+
+        edit = findViewById(R.id.editBtn2);
+
+        ArrayList<ImageButton> dlts = new ArrayList<ImageButton>();
+        // delete buttons
+        dlts.add(findViewById(R.id.dltf1));
+        dlts.add(findViewById(R.id.dltf2));
+        dlts.add(findViewById(R.id.dltf3));
+        dlts.add(findViewById(R.id.dltf4));
+
+        //edit category buttons
+        ArrayList<ImageButton> Renameflashcards = new ArrayList<ImageButton>();
+        Renameflashcards.add(findViewById(R.id.rn1));
+        Renameflashcards.add(findViewById(R.id.rn2));
+        Renameflashcards.add(findViewById(R.id.rn3));
+        Renameflashcards.add(findViewById(R.id.rn4));
+        ;
+
+        /********* edit toggle ************/
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean isEditOn = edit.isChecked();
+                // toggle on
+                if (isEditOn) {
+                    for (int dor = 0; dor < c.getFlashcards().size(); dor++) {
+                        dlts.get(dor).setVisibility(View.VISIBLE);
+                        Renameflashcards.get(dor).setVisibility(View.VISIBLE);
+                    }
+                    // toggle off
+                } else {
+                    for (int biha = 0; biha < c.getFlashcards().size(); biha++) {
+                        dlts.get(biha).setVisibility(View.INVISIBLE);
+                        Renameflashcards.get(biha).setVisibility(View.INVISIBLE);
+                    }
+
+                }
+            }
+        });
+    }
 
 /********************STATIC APPROACH TO ADDING BUTTONS************************
         // Flashcard buttons
@@ -99,50 +140,10 @@ public class CategoryView extends AppCompatActivity {
 
 ///******************************************************************/
 //
-    }
     private int convertDptoPx(int dp) {
         return (int) (dp * getResources().getDisplayMetrics().density);
+    }
 
 /******************************************************************/
-        edit = findViewById(R.id.editBtn2);
-
-        ArrayList<ImageButton> dlts = new ArrayList<ImageButton>();
-        // delete buttons
-        dlts.add(findViewById(R.id.dltf1));
-        dlts.add(findViewById(R.id.dltf2));
-        dlts.add(findViewById(R.id.dltf3));
-        dlts.add(findViewById(R.id.dltf4));
-
-        //edit category buttons
-        ArrayList<ImageButton> Renameflashcards = new ArrayList<ImageButton>();
-        Renameflashcards.add(findViewById(R.id.rn1));
-        Renameflashcards.add(findViewById(R.id.rn2));
-        Renameflashcards.add(findViewById(R.id.rn3));
-        Renameflashcards.add(findViewById(R.id.rn4));
-;
-
-        /********* edit toggle ************/
-
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean isEditOn = edit.isChecked();
-                // toggle on
-                if (isEditOn) {
-                    for (int dor=0; dor<c.getFlashcards().size(); dor++){
-                        dlts.get(dor).setVisibility(View.VISIBLE);
-                        Renameflashcards.get(dor).setVisibility(View.VISIBLE);
-                    }
-                    // toggle off
-                } else {
-                    for (int biha=0; biha<c.getFlashcards().size(); biha++){
-                        dlts.get(biha).setVisibility(View.INVISIBLE);
-                        Renameflashcards.get(biha).setVisibility(View.INVISIBLE);
-                    }
-
-                }
-            }
-        });
-    }
 
 }
