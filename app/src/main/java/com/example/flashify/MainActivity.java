@@ -29,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<Category> categories;
     FloatingActionButton addBtn, manualBtn, magicBtn;
     Switch edit;
+
+    LinearLayout.LayoutParams innerLayoutParams;
+    LinearLayout outerLinearLayout;
+    LinearLayout.LayoutParams buttonParams;
+    LinearLayout.LayoutParams editButtonParams;
+    LinearLayout.LayoutParams deleteButtonParams;
+
+
     private AppDatabase db;
 
     // category buttons
@@ -112,101 +120,25 @@ public class MainActivity extends AppCompatActivity {
         manualBtn=findViewById(R.id.manualBtn);
         edit = findViewById(R.id.editbtn);
 
-        LinearLayout outerLinearLayout = findViewById(R.id.categoryLinearLayout);
+        outerLinearLayout = findViewById(R.id.categoryLinearLayout);
 
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(0, convertDptoPx(90));
+        buttonParams = new LinearLayout.LayoutParams(0, convertDptoPx(90));
         buttonParams.weight = 4;
 
-        LinearLayout.LayoutParams editButtonParams = new LinearLayout.LayoutParams(0, convertDptoPx(60));
+        editButtonParams = new LinearLayout.LayoutParams(0, convertDptoPx(60));
         editButtonParams.weight = 1;
         editButtonParams.leftMargin = convertDptoPx(10);
 
-        LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(0, convertDptoPx(60));
+        deleteButtonParams = new LinearLayout.LayoutParams(0, convertDptoPx(60));
         deleteButtonParams.weight = 1;
         deleteButtonParams.rightMargin = convertDptoPx(10);
 
-        LinearLayout.LayoutParams innerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        innerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         innerLayoutParams.setMargins(convertDptoPx(15), 0, convertDptoPx(15), convertDptoPx(20));
 
 
-        for (int categoryInd = 0; categoryInd < categories.size(); categoryInd++) {
-            // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
-            LinearLayout innerLinearLayout = new LinearLayout(this);
-            innerLinearLayout.setLayoutParams(innerLayoutParams);
-            innerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            innerLinearLayout.setGravity(Gravity.CENTER);
-
-            // Create the dynamic button
-            Button button = new Button(this);
-            button.setText(categories.get(categoryInd).getName());
-            button.setBackgroundColor(0xFF6200ED);
-            button.setLayoutParams(buttonParams);
-            button.setTextColor(0xFFFFFFFF);
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intentF = new Intent(MainActivity.this, CategoryViewActivity.class);
-                    intentF.putExtra("category", categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)));
-                    startActivity(intentF);
-                }
-            });
-
-            // Create the two smaller image buttons
-            ImageButton renameBtn = new ImageButton(this);
-            renameBtn.setImageResource(R.drawable.baseline_mode_edit_24);
-            renameBtn.setBackgroundColor(Color.TRANSPARENT);
-            renameBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            renameBtn.setVisibility(View.INVISIBLE);
-            renameBtn.setLayoutParams(editButtonParams);
-
-            renameBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Create an EditText view to get user input
-                    final EditText inputView = new EditText(MainActivity.this);
-
-                    // Create a dialog with the EditText view as its content
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Enter the new category name: ")
-                            .setView(inputView)
-                            .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Get the text entered by the user
-                                    String inputText = inputView.getText().toString();
-
-                                    // Set the text of the button to the user input
-                                    button.setText(inputText);
-                                    categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
-                                }
-                            })
-                            .setNegativeButton("Cancel", null)
-                            .show();
-                }
-            });
-
-            ImageButton deleteBtn = new ImageButton(this);
-            deleteBtn.setImageResource(R.drawable.icons8_remove_96);
-            deleteBtn.setBackgroundColor(Color.TRANSPARENT);
-            deleteBtn.setVisibility(View.INVISIBLE);
-            deleteBtn.setLayoutParams(deleteButtonParams);
-
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    categories.remove(outerLinearLayout.indexOfChild(innerLinearLayout));
-                    outerLinearLayout.removeView(innerLinearLayout);
-                }
-            });
-
-            // Add the dynamic button and two smaller image buttons to the LinearLayout
-            innerLinearLayout.addView(deleteBtn);
-            innerLinearLayout.addView(button);
-            innerLinearLayout.addView(renameBtn);
-
-            outerLinearLayout.addView(innerLinearLayout);
+        for (Category category : categories) {
+            addCategoryToLayout(category);
         }
 
         /********* edit toggle ************/
@@ -245,74 +177,65 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-//
-//        // CONNECTING THE DATABASE
-//
-//
-//        /***************************   INITIALIZATION   ******************************/
-//
-//                // YOUNESS' DUMMY DATA
-//                /*
-//                ArrayList<Category> database = new ArrayList<Category>();
-//                database.add(new Category("Geography" ));
-//                database.add(new Category("Chemistry" ));;
-//                database.add(new Category("Supreme lord emperor" ));
-//                database.get(0).getFlashcards().add(new Flashcard("what is the capital of Spain ?", "Madrid"));
-//                database.get(0).getFlashcards().add(new Flashcard ("What is the capital of Italy ?", "Rome"));
-//                //database.get(1).getFlashcards().add(new Flashcard ("H2O","the water chemical compound"));
-//                database.get(1).getFlashcards().add(new Flashcard ("dilution","the act of decreasing the concentration of a soluble"));
+
+        // add a category
+        manualBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                        // Create an EditText view to get user input
+                        final EditText inputView = new EditText(MainActivity.this);
+
+                        // Create a dialog with the EditText view as its content
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                        builder.setTitle("New category name: ")
+                                .setView(inputView)
+                                .setPositiveButton("create", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Get the text entered by the user
+                                        String inputText = inputView.getText().toString();
+
+                                        // Set the text of the button to the user input
+
+                                        Category newCategory = new Category( inputText );
+                                        categories.add(newCategory);
+                                        addCategoryToLayout(newCategory);
+
+                                        Intent intent = new Intent(MainActivity.this, CategoryViewActivity.class);
+                                        intent.putExtra("category", newCategory);
+                                        startActivity(intent);
+                                    }
+
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .show();
+                    }
+                });
+
+        // CONNECTING THE DATABASE
+
+
+        /***************************   INITIALIZATION   ******************************/
+
+                // YOUNESS' DUMMY DATA
+                /*
+                ArrayList<Category> database = new ArrayList<Category>();
+                database.add(new Category("Geography" ));
+                database.add(new Category("Chemistry" ));;
+                database.add(new Category("Supreme lord emperor" ));
+                database.get(0).getFlashcards().add(new Flashcard("what is the capital of Spain ?", "Madrid"));
+                database.get(0).getFlashcards().add(new Flashcard ("What is the capital of Italy ?", "Rome"));
+                //database.get(1).getFlashcards().add(new Flashcard ("H2O","the water chemical compound"));
+                database.get(1).getFlashcards().add(new Flashcard ("dilution","the act of decreasing the concentration of a soluble"));
 //*/
 //
 //
 //
 //
 //        /********************************************************************************/
-//
-//
-//        ArrayList<ImageButton> dlts = new ArrayList<ImageButton>();
-//        // delete buttons
-//
-//        //edit category buttons
-//        ArrayList<ImageButton> RenameCategories = new ArrayList<ImageButton>();
-//
-//
 
-//        // add a category
-//        manualBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                        // Create an EditText view to get user input
-//                        final EditText inputView = new EditText(MainActivity.this);
-//
-//                        // Create a dialog with the EditText view as its content
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//
-//                        builder.setTitle("New category name: ")
-//                                .setView(inputView)
-//                                .setPositiveButton("create", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        // Get the text entered by the user
-//                                        String inputText = inputView.getText().toString();
-//
-//                                        // Set the text of the button to the user input
-//
-//                                        categories.add(new Category( inputText ));
-//                                        catbuttons.get(categories.size()-1).setVisibility(View.VISIBLE);
-//                                        catbuttons.get(categories.size()-1).setText(inputText);
-//                                        catbuttons.get(categories.size()-1).setBackgroundColor(Color.parseColor("#6200ED"));
-//
-//                                        Intent intent = new Intent(MainActivity.this, CategoryViewActivity.class);
-//                                        intent.putExtra("co", categories.get(categories.size()-1));
-//                                        startActivity(intent);
-//                                    }
-//
-//                                })
-//                                .setNegativeButton("Cancel", null)
-//                                .show();
-//                    }
-//                });
 
     }
 
@@ -324,6 +247,86 @@ public class MainActivity extends AppCompatActivity {
 
     private int convertDptoPx(int dp) {
         return (int) (dp * getResources().getDisplayMetrics().density);
+    }
+
+    private void addCategoryToLayout(Category category) {
+        // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
+        LinearLayout innerLinearLayout = new LinearLayout(this);
+        innerLinearLayout.setLayoutParams(innerLayoutParams);
+        innerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        innerLinearLayout.setGravity(Gravity.CENTER);
+
+        // Create the dynamic button
+        Button button = new Button(this);
+        button.setText(category.getName());
+        button.setBackgroundColor(0xFF6200ED);
+        button.setLayoutParams(buttonParams);
+        button.setTextColor(0xFFFFFFFF);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentF = new Intent(MainActivity.this, CategoryViewActivity.class);
+                intentF.putExtra("category", categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)));
+                startActivity(intentF);
+            }
+        });
+
+        // Create the two smaller image buttons
+        ImageButton renameBtn = new ImageButton(this);
+        renameBtn.setImageResource(R.drawable.baseline_mode_edit_24);
+        renameBtn.setBackgroundColor(Color.TRANSPARENT);
+        renameBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        renameBtn.setVisibility(View.INVISIBLE);
+        renameBtn.setLayoutParams(editButtonParams);
+
+        renameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an EditText view to get user input
+                final EditText inputView = new EditText(MainActivity.this);
+
+                // Create a dialog with the EditText view as its content
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Enter the new category name: ")
+                        .setView(inputView)
+                        .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Get the text entered by the user
+                                String inputText = inputView.getText().toString();
+
+                                // Set the text of the button to the user input
+                                button.setText(inputText);
+                                categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            }
+        });
+
+        ImageButton deleteBtn = new ImageButton(this);
+        deleteBtn.setImageResource(R.drawable.icons8_remove_96);
+        deleteBtn.setBackgroundColor(Color.TRANSPARENT);
+        deleteBtn.setVisibility(View.INVISIBLE);
+        deleteBtn.setLayoutParams(deleteButtonParams);
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                categories.remove(outerLinearLayout.indexOfChild(innerLinearLayout));
+                outerLinearLayout.removeView(innerLinearLayout);
+            }
+        });
+
+        // Add the dynamic button and two smaller image buttons to the LinearLayout
+        innerLinearLayout.addView(deleteBtn);
+        innerLinearLayout.addView(button);
+        innerLinearLayout.addView(renameBtn);
+
+        outerLinearLayout.addView(innerLinearLayout);
     }
 
     @Override
