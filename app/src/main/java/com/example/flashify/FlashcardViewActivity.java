@@ -1,5 +1,7 @@
 package com.example.flashify;
 
+import static com.example.flashify.MainActivity.categories;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class FlashcardViewActivity extends AppCompatActivity {
     ToggleButton FlashC;
-    int index;
-    Category category;
+    int flashcardInd;
+    int categoryInd;
     ImageButton nextf, prevf, deleteButton, editButton;
 
     @SuppressLint("MissingInflatedId")
@@ -30,11 +32,9 @@ public class FlashcardViewActivity extends AppCompatActivity {
         editButton = findViewById(R.id.editButton);
 
         // retrieve the data
-        category = (Category) getIntent().getParcelableExtra("category");
+        categoryInd = getIntent().getIntExtra("categoryInd", 0);
         Bundle extras = getIntent().getExtras();
-        index = extras.getInt("ind");
-        Log.d("IND: ", String.valueOf(index ));
-
+        flashcardInd = extras.getInt("flashcardInd");
 
         // view the flashcard
         refreshView();
@@ -42,9 +42,9 @@ public class FlashcardViewActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                category.deleteFlashcard(index);
-                if (index == category.getFlashcards().size()) {
-                    index = index-1;
+                categories.get(categoryInd).deleteFlashcard(flashcardInd);
+                if (flashcardInd == categories.get(categoryInd).getFlashcards().size()) {
+                    flashcardInd = flashcardInd-1;
                 } ;
                 refreshView();
             }
@@ -59,7 +59,7 @@ public class FlashcardViewActivity extends AppCompatActivity {
 
                     prevf.setVisibility(View.VISIBLE);
 
-                    index = index+1;
+                    flashcardInd = flashcardInd+1;
                     refreshView();
                 }
 
@@ -74,7 +74,7 @@ public class FlashcardViewActivity extends AppCompatActivity {
 
                 nextf.setVisibility(View.VISIBLE);
 
-                index = index-1;
+                flashcardInd = flashcardInd-1;
                 refreshView();
             }
         });
@@ -86,15 +86,15 @@ public class FlashcardViewActivity extends AppCompatActivity {
     }
 
     private void refreshView() {
-        if( index == 0 ) {
+        if( flashcardInd == 0 ) {
             prevf.setVisibility(View.INVISIBLE);
-        } else if (index+1 > category.getFlashcards().size() - 1 ){
+        } else if (flashcardInd+1 > categories.get(categoryInd).getFlashcards().size() - 1 ){
             {nextf.setVisibility(View.INVISIBLE);}
         }
 
-        FlashC.setText(category.getFlashcards().get(index).getFront());
-        FlashC.setTextOff(category.getFlashcards().get(index).getFront());
-        FlashC.setTextOn(category.getFlashcards().get(index).getBack());
+        FlashC.setText(categories.get(categoryInd).getFlashcards().get(flashcardInd).getFront());
+        FlashC.setTextOff(categories.get(categoryInd).getFlashcards().get(flashcardInd).getFront());
+        FlashC.setTextOn(categories.get(categoryInd).getFlashcards().get(flashcardInd).getBack());
 
     }
 

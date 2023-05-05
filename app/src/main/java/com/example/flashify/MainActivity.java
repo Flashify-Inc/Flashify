@@ -39,10 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppDatabase db;
 
-    // category buttons
-    ArrayList<Button> catbuttons = new ArrayList<>();
-
-    private void initCategories() {
+    private void loadCategoriesFromDB() {
         db = AppDatabase.getInstance(getApplicationContext());
 
         db.flashcardsDao().deleteAllFlashcards();
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initCategories();
+        loadCategoriesFromDB();
 
         // localize the interactive buttons in the screen
         addBtn=findViewById(R.id.openBtn);
@@ -122,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
         outerLinearLayout = findViewById(R.id.categoryLinearLayout);
 
-        buttonParams = new LinearLayout.LayoutParams(0, convertDptoPx(90));
+        buttonParams = new LinearLayout.LayoutParams(0, convertDptoPx(70));
         buttonParams.weight = 4;
 
         editButtonParams = new LinearLayout.LayoutParams(0, convertDptoPx(60));
@@ -136,10 +133,7 @@ public class MainActivity extends AppCompatActivity {
         innerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         innerLayoutParams.setMargins(convertDptoPx(15), 0, convertDptoPx(15), convertDptoPx(20));
 
-
-        for (Category category : categories) {
-            addCategoryToLayout(category);
-        }
+        refreshView();
 
         /********* edit toggle ************/
         edit.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
 
                                         Category newCategory = new Category( inputText );
                                         categories.add(newCategory);
-                                        addCategoryToLayout(newCategory);
 
                                         Intent intent = new Intent(MainActivity.this, CategoryViewActivity.class);
                                         intent.putExtra("category", newCategory);
@@ -249,85 +242,89 @@ public class MainActivity extends AppCompatActivity {
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
-    private void addCategoryToLayout(Category category) {
-        // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
-        LinearLayout innerLinearLayout = new LinearLayout(this);
-        innerLinearLayout.setLayoutParams(innerLayoutParams);
-        innerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        innerLinearLayout.setGravity(Gravity.CENTER);
+    private void refreshView() {
+        outerLinearLayout.removeAllViews();
+        for (int categoryInd = 0; categoryInd < categories.size(); categoryInd++) {
+            // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
+            LinearLayout innerLinearLayout = new LinearLayout(this);
+            innerLinearLayout.setLayoutParams(innerLayoutParams);
+            innerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            innerLinearLayout.setGravity(Gravity.CENTER);
 
-        // Create the dynamic button
-        Button button = new Button(this);
-        button.setText(category.getName());
-        button.setBackgroundColor(0xFF6200ED);
-        button.setLayoutParams(buttonParams);
-        button.setTextColor(0xFFFFFFFF);
+            // Create the dynamic button
+            Button button = new Button(this);
+            button.setText(categories.get(categoryInd).getName());
+            button.setBackgroundColor(0xFF6200ED);
+            button.setLayoutParams(buttonParams);
+            button.setTextColor(0xFFFFFFFF);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentF = new Intent(MainActivity.this, CategoryViewActivity.class);
-                intentF.putExtra("category", categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)));
-                startActivity(intentF);
-            }
-        });
+            int finalCategoryInd = categoryInd;
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentF = new Intent(MainActivity.this, CategoryViewActivity.class);
+                    intentF.putExtra("categoryInd", finalCategoryInd);
+                    startActivity(intentF);
+                }
+            });
 
-        // Create the two smaller image buttons
-        ImageButton renameBtn = new ImageButton(this);
-        renameBtn.setImageResource(R.drawable.baseline_mode_edit_24);
-        renameBtn.setBackgroundColor(Color.TRANSPARENT);
-        renameBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        renameBtn.setVisibility(View.INVISIBLE);
-        renameBtn.setLayoutParams(editButtonParams);
+            // Create the two smaller image buttons
+            ImageButton renameBtn = new ImageButton(this);
+            renameBtn.setImageResource(R.drawable.baseline_mode_edit_24);
+            renameBtn.setBackgroundColor(Color.TRANSPARENT);
+            renameBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            renameBtn.setVisibility(View.INVISIBLE);
+            renameBtn.setLayoutParams(editButtonParams);
 
-        renameBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create an EditText view to get user input
-                final EditText inputView = new EditText(MainActivity.this);
+            renameBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Create an EditText view to get user input
+                    final EditText inputView = new EditText(MainActivity.this);
 
-                // Create a dialog with the EditText view as its content
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Enter the new category name: ")
-                        .setView(inputView)
-                        .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Get the text entered by the user
-                                String inputText = inputView.getText().toString();
+                    // Create a dialog with the EditText view as its content
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Enter the new category name: ")
+                            .setView(inputView)
+                            .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Get the text entered by the user
+                                    String inputText = inputView.getText().toString();
 
-                                // Set the text of the button to the user input
-                                button.setText(inputText);
-                                categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
-                            }
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .show();
-            }
-        });
+                                    // Set the text of the button to the user input
+                                    button.setText(inputText);
+                                    categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
+                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+                }
+            });
 
-        ImageButton deleteBtn = new ImageButton(this);
-        deleteBtn.setImageResource(R.drawable.icons8_remove_96);
-        deleteBtn.setBackgroundColor(Color.TRANSPARENT);
-        deleteBtn.setVisibility(View.INVISIBLE);
-        deleteBtn.setLayoutParams(deleteButtonParams);
+            ImageButton deleteBtn = new ImageButton(this);
+            deleteBtn.setImageResource(R.drawable.icons8_remove_96);
+            deleteBtn.setBackgroundColor(Color.TRANSPARENT);
+            deleteBtn.setVisibility(View.INVISIBLE);
+            deleteBtn.setLayoutParams(deleteButtonParams);
 
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                categories.remove(outerLinearLayout.indexOfChild(innerLinearLayout));
-                outerLinearLayout.removeView(innerLinearLayout);
-            }
-        });
+                    categories.remove(outerLinearLayout.indexOfChild(innerLinearLayout));
+                    outerLinearLayout.removeView(innerLinearLayout);
+                }
+            });
 
-        // Add the dynamic button and two smaller image buttons to the LinearLayout
-        innerLinearLayout.addView(deleteBtn);
-        innerLinearLayout.addView(button);
-        innerLinearLayout.addView(renameBtn);
+            // Add the dynamic button and two smaller image buttons to the LinearLayout
+            innerLinearLayout.addView(deleteBtn);
+            innerLinearLayout.addView(button);
+            innerLinearLayout.addView(renameBtn);
 
-        outerLinearLayout.addView(innerLinearLayout);
-    }
+            outerLinearLayout.addView(innerLinearLayout);
+        }
+        }
 
     @Override
     protected void onDestroy() {
@@ -357,5 +354,11 @@ public class MainActivity extends AppCompatActivity {
                 db.flashcardsDao().insertFlashcard(curFlashcardDB);
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshView();
     }
 }

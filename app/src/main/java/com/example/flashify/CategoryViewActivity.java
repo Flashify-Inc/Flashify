@@ -1,6 +1,8 @@
 package com.example.flashify;
 
 
+import static com.example.flashify.MainActivity.categories;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,6 +24,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class CategoryViewActivity extends AppCompatActivity {
     TextView catText;
     Switch edit;
+
+    int categoryInd;
 
     LinearLayout.LayoutParams innerLayoutParams;
     LinearLayout outerLinearLayout;
@@ -50,99 +54,15 @@ public class CategoryViewActivity extends AppCompatActivity {
         innerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         innerLayoutParams.setMargins(convertDptoPx(15), 0, convertDptoPx(15), convertDptoPx(20));
 
-        Category category = (Category) getIntent().getParcelableExtra("category");
+        categoryInd = getIntent().getIntExtra("categoryInd", 0);
 
         // localize the interactive buttons in the screen
         catText = findViewById(R.id.textCategoryView);
-        catText.setText(category.getName());
+        catText.setText(categories.get(categoryInd).getName());
 
         edit = findViewById(R.id.editBtn2);
 
-        for (Flashcard flashcard : category.getFlashcards()) {
-            // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
-            LinearLayout innerLinearLayout = new LinearLayout(this);
-            innerLinearLayout.setLayoutParams(innerLayoutParams);
-            innerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            innerLinearLayout.setGravity(Gravity.CENTER);
-
-
-            // Create the dynamic button
-            Button button = new Button(this);
-            button.setText(flashcard.getFront());
-            button.setBackgroundColor(0xFF6200ED);
-            button.setLayoutParams(buttonParams);
-            button.setTextColor(0xFFFFFFFF);
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intentF = new Intent(CategoryViewActivity.this, FlashcardViewActivity.class);
-                    intentF.putExtra("category", category);
-                    intentF.putExtra("ind", outerLinearLayout.indexOfChild(innerLinearLayout));
-                    startActivity(intentF);
-                }
-            });
-
-            // Create the two smaller image buttons
-            ImageButton editBtn = new ImageButton(this);
-            editBtn.setImageResource(R.drawable.baseline_mode_edit_24);
-            editBtn.setBackgroundColor(Color.TRANSPARENT);
-            editBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            editBtn.setVisibility(View.INVISIBLE);
-            editBtn.setLayoutParams(editButtonParams);
-
-            editBtn.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view) {
-                       //TODO
-//                       // Create an EditText view to get user input
-//                       final EditText inputView = new EditText(MainActivity.this);
-//
-//                       // Create a dialog with the EditText view as its content
-//                       AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                       builder.setTitle("Enter the new category name: ")
-//                               .setView(inputView)
-//                               .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
-//                                   @Override
-//                                   public void onClick(DialogInterface dialog, int which) {
-//                                       // Get the text entered by the user
-//                                       String inputText = inputView.getText().toString();
-//
-//                                       // Set the text of the button to the user input
-//                                       button.setText(inputText);
-//                                       categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
-//                                   }
-//                               })
-//                               .setNegativeButton("Cancel", null)
-//                               .show();
-
-                   }
-               }
-            );
-
-            ImageButton deleteBtn = new ImageButton(this);
-            deleteBtn.setImageResource(R.drawable.icons8_remove_96);
-            deleteBtn.setBackgroundColor(Color.TRANSPARENT);
-            deleteBtn.setVisibility(View.INVISIBLE);
-            deleteBtn.setLayoutParams(deleteButtonParams);
-
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    category.deleteFlashcard(outerLinearLayout.indexOfChild(innerLinearLayout));
-                    outerLinearLayout.removeView(innerLinearLayout);
-                }
-            });
-
-            // Add the dynamic button and two smaller image buttons to the LinearLayout
-            innerLinearLayout.addView(deleteBtn);
-            innerLinearLayout.addView(button);
-            innerLinearLayout.addView(editBtn);
-
-
-            outerLinearLayout.addView(innerLinearLayout);
-        }
-
+        refreshView();
 
         /********* edit toggle ************/
 
@@ -151,7 +71,7 @@ public class CategoryViewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 boolean isEditOn = edit.isChecked();
                 // toggle on
-                    for (int innerLinearLayoutInd = 0; innerLinearLayoutInd < category.getFlashcards().size(); innerLinearLayoutInd++) {
+                    for (int innerLinearLayoutInd = 0; innerLinearLayoutInd < categories.get(categoryInd).getFlashcards().size(); innerLinearLayoutInd++) {
                         LinearLayout innerLinearLayout = (LinearLayout) outerLinearLayout.getChildAt(innerLinearLayoutInd);
                         if (isEditOn) {
                             innerLinearLayout.getChildAt(0).setVisibility(View.VISIBLE);
@@ -207,6 +127,99 @@ public class CategoryViewActivity extends AppCompatActivity {
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
-/******************************************************************/
+    private void refreshView() {
+        outerLinearLayout.removeAllViews();
 
+        for (Flashcard flashcard : categories.get(categoryInd).getFlashcards()) {
+            // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
+            LinearLayout innerLinearLayout = new LinearLayout(this);
+            innerLinearLayout.setLayoutParams(innerLayoutParams);
+            innerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            innerLinearLayout.setGravity(Gravity.CENTER);
+
+
+            // Create the dynamic button
+            Button button = new Button(this);
+            button.setText(flashcard.getFront());
+            button.setBackgroundColor(0xFF6200ED);
+            button.setLayoutParams(buttonParams);
+            button.setTextColor(0xFFFFFFFF);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentF = new Intent(CategoryViewActivity.this, FlashcardViewActivity.class);
+                    intentF.putExtra("categoryInd", categoryInd);
+                    intentF.putExtra("flashcardInd", outerLinearLayout.indexOfChild(innerLinearLayout));
+                    startActivity(intentF);
+                }
+            });
+
+            // Create the two smaller image buttons
+            ImageButton editBtn = new ImageButton(this);
+            editBtn.setImageResource(R.drawable.baseline_mode_edit_24);
+            editBtn.setBackgroundColor(Color.TRANSPARENT);
+            editBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            editBtn.setVisibility(View.INVISIBLE);
+            editBtn.setLayoutParams(editButtonParams);
+
+            editBtn.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View view) {
+                                               //TODO
+//                       // Create an EditText view to get user input
+//                       final EditText inputView = new EditText(MainActivity.this);
+//
+//                       // Create a dialog with the EditText view as its content
+//                       AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//                       builder.setTitle("Enter the new category name: ")
+//                               .setView(inputView)
+//                               .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
+//                                   @Override
+//                                   public void onClick(DialogInterface dialog, int which) {
+//                                       // Get the text entered by the user
+//                                       String inputText = inputView.getText().toString();
+//
+//                                       // Set the text of the button to the user input
+//                                       button.setText(inputText);
+//                                       categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
+//                                   }
+//                               })
+//                               .setNegativeButton("Cancel", null)
+//                               .show();
+
+                                           }
+                                       }
+            );
+
+            ImageButton deleteBtn = new ImageButton(this);
+            deleteBtn.setImageResource(R.drawable.icons8_remove_96);
+            deleteBtn.setBackgroundColor(Color.TRANSPARENT);
+            deleteBtn.setVisibility(View.INVISIBLE);
+            deleteBtn.setLayoutParams(deleteButtonParams);
+
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    categories.get(categoryInd).deleteFlashcard(outerLinearLayout.indexOfChild(innerLinearLayout));
+                    refreshView();
+                }
+            });
+
+            // Add the dynamic button and two smaller image buttons to the LinearLayout
+            innerLinearLayout.addView(deleteBtn);
+            innerLinearLayout.addView(button);
+            innerLinearLayout.addView(editBtn);
+
+
+            outerLinearLayout.addView(innerLinearLayout);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshView();
+    }
 }
