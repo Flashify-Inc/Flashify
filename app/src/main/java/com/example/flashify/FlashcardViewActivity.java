@@ -13,7 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class FlashcardViewActivity extends AppCompatActivity {
     ToggleButton FlashC;
     int index;
-    ImageButton nextf, prevf;
+    Category category;
+    ImageButton nextf, prevf, deleteButton, editButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -25,72 +26,76 @@ public class FlashcardViewActivity extends AppCompatActivity {
         FlashC = findViewById(R.id.FlachCD);
         nextf = findViewById(R.id.nextF);
         prevf = findViewById(R.id.prevF);
+        deleteButton = findViewById(R.id.deleteButton);
+        editButton = findViewById(R.id.editButton);
 
         // retrieve the data
-        Category c = (Category) getIntent().getParcelableExtra("categoryNumber");
+        category = (Category) getIntent().getParcelableExtra("category");
         Bundle extras = getIntent().getExtras();
         index = extras.getInt("ind");
         Log.d("IND: ", String.valueOf(index ));
 
 
         // view the flashcard
-        FlashC.setText(c.getFlashcards().get(index).getFront());
-        FlashC.setTextOff(c.getFlashcards().get(index).getFront());
-        FlashC.setTextOn(c.getFlashcards().get(index).getBack());
+        refreshView();
 
-        if( index+1 > c.getFlashcards().size() - 1 )
-            {nextf.setVisibility(View.INVISIBLE);}
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                category.deleteFlashcard(index);
+                if (index == category.getFlashcards().size()) {
+                    index = index-1;
+                } ;
+                refreshView();
+            }
+        });
 
-        if( index == 0 )
-            {prevf.setVisibility(View.INVISIBLE);}
+        // next button
+        nextf.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (FlashC.isChecked())
+                        FlashC.toggle();
 
-            // next button
+                    prevf.setVisibility(View.VISIBLE);
 
-            nextf.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (FlashC.isChecked())
-                            FlashC.toggle();
+                    index = index+1;
+                    refreshView();
+                }
 
-                        prevf.setVisibility(View.VISIBLE);
+        });
 
-                        index = index+1;
-                        FlashC.setText(c.getFlashcards().get(index).getFront());
-                        FlashC.setTextOff(c.getFlashcards().get(index).getFront());
-                        FlashC.setTextOn(c.getFlashcards().get(index).getBack());
+        // previous button
+        prevf.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (FlashC.isChecked())
+                    FlashC.toggle();
 
-                        if( index+1 > c.getFlashcards().size() -1 )
-                            nextf.setVisibility(View.INVISIBLE);
-                    }
+                nextf.setVisibility(View.VISIBLE);
 
-                });
-
-            // previous button
-
-                prevf.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (FlashC.isChecked())
-                            FlashC.toggle();
-
-                        nextf.setVisibility(View.VISIBLE);
-
-                        index = index-1;
-                        FlashC.setText(c.getFlashcards().get(index).getFront());
-                        FlashC.setTextOff(c.getFlashcards().get(index).getFront());
-                        FlashC.setTextOn(c.getFlashcards().get(index).getBack());
-
-                        if( index == 0 )
-                            prevf.setVisibility(View.INVISIBLE);
-                    }
-                });
-
-
+                index = index-1;
+                refreshView();
+            }
+        });
     }
 
     public void launchMainActivity (View V){
         Intent intent = new Intent (this,MainActivity.class);
         startActivity(intent);
+    }
+
+    private void refreshView() {
+        if( index == 0 ) {
+            prevf.setVisibility(View.INVISIBLE);
+        } else if (index+1 > category.getFlashcards().size() - 1 ){
+            {nextf.setVisibility(View.INVISIBLE);}
+        }
+
+        FlashC.setText(category.getFlashcards().get(index).getFront());
+        FlashC.setTextOff(category.getFlashcards().get(index).getFront());
+        FlashC.setTextOn(category.getFlashcards().get(index).getBack());
+
     }
 
 }

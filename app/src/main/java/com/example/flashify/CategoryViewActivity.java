@@ -77,7 +77,7 @@ public class CategoryViewActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intentF = new Intent(CategoryViewActivity.this, FlashcardViewActivity.class);
-                    intentF.putExtra("categoryNumber", category);
+                    intentF.putExtra("category", category);
                     intentF.putExtra("ind", outerLinearLayout.indexOfChild(innerLinearLayout));
                     startActivity(intentF);
                 }
