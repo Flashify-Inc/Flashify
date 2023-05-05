@@ -3,15 +3,18 @@ package com.example.flashify;
 import static com.example.flashify.MainActivity.categories;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class FlashcardViewActivity extends AppCompatActivity {
@@ -100,6 +103,56 @@ public class FlashcardViewActivity extends AppCompatActivity {
                     }
             }
         });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create a dialog for editing the front text
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(FlashcardViewActivity.this);
+                builder1.setTitle("Edit Front Text");
+                final EditText frontEditText = new EditText(FlashcardViewActivity.this);
+                frontEditText.setText(categories.get(categoryInd).getFlashcards().get(flashcardInd).getFront());
+                builder1.setView(frontEditText);
+                builder1.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String newFrontText = frontEditText.getText().toString();
+                        categories.get(categoryInd).getFlashcards().get(flashcardInd).setFront(newFrontText);
+                        refreshView();
+                    }
+                });
+                builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Do nothing
+                    }
+                });
+                builder1.show();
+
+                // Create a dialog for editing the back text
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(FlashcardViewActivity.this);
+                builder2.setTitle("Edit Back Text");
+                final EditText backEditText = new EditText(FlashcardViewActivity.this);
+                backEditText.setText(categories.get(categoryInd).getFlashcards().get(flashcardInd).getBack());
+                builder2.setView(backEditText);
+                builder2.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String newBackText = backEditText.getText().toString();
+                        categories.get(categoryInd).getFlashcards().get(flashcardInd).setBack(newBackText);
+                        refreshView();
+                    }
+                });
+                builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Do nothing
+                    }
+                });
+                builder2.show();
+            }
+        });
+
     }
 
     public void launchMainActivity (View V){

@@ -25,6 +25,10 @@ public class CategoryViewActivity extends AppCompatActivity {
     TextView catText;
     Switch edit;
 
+    ImageButton editBtn;
+    ImageButton deleteBtn;
+    Button button;
+
     int categoryInd;
 
     LinearLayout.LayoutParams innerLayoutParams;
@@ -130,7 +134,7 @@ public class CategoryViewActivity extends AppCompatActivity {
     private void refreshView() {
         outerLinearLayout.removeAllViews();
 
-        for (Flashcard flashcard : categories.get(categoryInd).getFlashcards()) {
+        for (int flashcardInd = 0; flashcardInd < categories.get(categoryInd).getFlashcards().size(); flashcardInd++) {
             // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
             LinearLayout innerLinearLayout = new LinearLayout(this);
             innerLinearLayout.setLayoutParams(innerLayoutParams);
@@ -139,8 +143,8 @@ public class CategoryViewActivity extends AppCompatActivity {
 
 
             // Create the dynamic button
-            Button button = new Button(this);
-            button.setText(flashcard.getFront());
+            button = new Button(this);
+            button.setText(categories.get(categoryInd).getFlashcards().get(flashcardInd).getFront());
             button.setBackgroundColor(0xFF6200ED);
             button.setLayoutParams(buttonParams);
             button.setTextColor(0xFFFFFFFF);
@@ -156,43 +160,69 @@ public class CategoryViewActivity extends AppCompatActivity {
             });
 
             // Create the two smaller image buttons
-            ImageButton editBtn = new ImageButton(this);
+            editBtn = new ImageButton(this);
             editBtn.setImageResource(R.drawable.baseline_mode_edit_24);
             editBtn.setBackgroundColor(Color.TRANSPARENT);
             editBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
             editBtn.setVisibility(View.INVISIBLE);
             editBtn.setLayoutParams(editButtonParams);
 
+            int finalFlashcardInd = flashcardInd;
             editBtn.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View view) {
-                                               //TODO
-//                       // Create an EditText view to get user input
-//                       final EditText inputView = new EditText(MainActivity.this);
-//
-//                       // Create a dialog with the EditText view as its content
-//                       AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                       builder.setTitle("Enter the new category name: ")
-//                               .setView(inputView)
-//                               .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
-//                                   @Override
-//                                   public void onClick(DialogInterface dialog, int which) {
-//                                       // Get the text entered by the user
-//                                       String inputText = inputView.getText().toString();
-//
-//                                       // Set the text of the button to the user input
-//                                       button.setText(inputText);
-//                                       categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
-//                                   }
-//                               })
-//                               .setNegativeButton("Cancel", null)
-//                               .show();
+               @Override
+               public void onClick(View view) {
+                   editBtn.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       // Create a dialog for editing the front text
+                       AlertDialog.Builder builder1 = new AlertDialog.Builder(CategoryViewActivity.this);
+                       builder1.setTitle("Edit Front Text");
+                       final EditText frontEditText = new EditText(CategoryViewActivity.this);
+                       frontEditText.setText(categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).getFront());
+                       builder1.setView(frontEditText);
+                       builder1.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialogInterface, int i) {
+                               String newFrontText = frontEditText.getText().toString();
+                               categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).setFront(newFrontText);
+                               refreshView();
+                           }
+                       });
+                       builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialogInterface, int i) {
+                               // Do nothing
+                           }
+                       });
+                       builder1.show();
 
-                                           }
-                                       }
-            );
+                       // Create a dialog for editing the back text
+                       AlertDialog.Builder builder2 = new AlertDialog.Builder(CategoryViewActivity.this);
+                       builder2.setTitle("Edit Back Text");
+                       final EditText backEditText = new EditText(CategoryViewActivity.this);
+                       backEditText.setText(categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).getBack());
+                       builder2.setView(backEditText);
+                       builder2.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialogInterface, int i) {
+                               String newBackText = backEditText.getText().toString();
+                               categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).setBack(newBackText);
+                               refreshView();
+                           }
+                       });
+                       builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialogInterface, int i) {
+                               // Do nothing
+                           }
+                       });
+                       builder2.show();
+                   }
+               });
+               }
+            });
 
-            ImageButton deleteBtn = new ImageButton(this);
+            deleteBtn = new ImageButton(this);
             deleteBtn.setImageResource(R.drawable.icons8_remove_96);
             deleteBtn.setBackgroundColor(Color.TRANSPARENT);
             deleteBtn.setVisibility(View.INVISIBLE);
