@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FlashcardView">
+    tools:context=".FlashcardViewActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/backbtn"
@@ -34,8 +34,8 @@
 
     <ToggleButton
         android:id="@+id/FlachCD"
-        android:layout_width="319dp"
-        android:layout_height="237dp"
+        android:layout_width="370dp"
+        android:layout_height="350dp"
         android:backgroundTint="#6200ED"
         android:text="Flashcard 1"
         android:textColor="#FFFFFF"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.394" />
+        app:layout_constraintVertical_bias="0.32" />
 
     <ImageButton
         android:id="@+id/prevF"
@@ -86,5 +86,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.893"
         app:srcCompat="@drawable/baseline_home_24" />
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="101dp"
+        android:layout_height="106dp"
+        android:elevation="2dp"
+        app:layout_constraintStart_toStartOf="@+id/FlachCD"
+        app:layout_constraintTop_toTopOf="@+id/FlachCD"
+        app:srcCompat="@drawable/icons8_remove_96" />
+
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="87dp"
+        android:layout_height="94dp"
+        android:elevation="2dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/FlachCD"
+        app:layout_constraintTop_toTopOf="@+id/FlachCD"
+        app:srcCompat="@drawable/baseline_mode_edit_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

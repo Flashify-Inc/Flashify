@@ -6,7 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MagicView extends AppCompatActivity {
+public class MagicViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class MagicView extends AppCompatActivity {
     }
 
     public void launchMagicTextView(View V){
-        Intent intentS = new Intent(this,MagicTextView.class);
+        Intent intentS = new Intent(this, MagicTextViewActivity.class);
         startActivity(intentS);
     }
 }
