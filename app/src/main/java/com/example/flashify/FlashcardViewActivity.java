@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class FlashcardViewActivity extends AppCompatActivity {
     ToggleButton FlashC;
     int flashcardInd;
+
+    Switch toggleEdit;
     int categoryInd;
     ImageButton nextf, prevf, deleteButton, editButton;
 
@@ -30,12 +34,15 @@ public class FlashcardViewActivity extends AppCompatActivity {
         prevf = findViewById(R.id.prevF);
         deleteButton = findViewById(R.id.deleteButton);
         editButton = findViewById(R.id.editButton);
+        toggleEdit = findViewById(R.id.toggleEdit);
 
         // retrieve the data
         categoryInd = getIntent().getIntExtra("categoryInd", 0);
         Bundle extras = getIntent().getExtras();
         flashcardInd = extras.getInt("flashcardInd");
 
+        deleteButton.setVisibility(View.INVISIBLE);
+        editButton.setVisibility(View.INVISIBLE);
         // view the flashcard
         refreshView();
 
@@ -76,6 +83,21 @@ public class FlashcardViewActivity extends AppCompatActivity {
 
                 flashcardInd = flashcardInd-1;
                 refreshView();
+            }
+        });
+
+        toggleEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean isEditOn = toggleEdit.isChecked();
+                // toggle on
+                    if (isEditOn) {
+                        deleteButton.setVisibility(View.VISIBLE);
+                        editButton.setVisibility(View.VISIBLE);
+                    } else {
+                        deleteButton.setVisibility(View.INVISIBLE);
+                        editButton.setVisibility(View.INVISIBLE);
+                    }
             }
         });
     }

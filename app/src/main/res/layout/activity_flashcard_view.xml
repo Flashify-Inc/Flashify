@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
     <Switch
-        android:id="@+id/editBtn3"
+        android:id="@+id/toggleEdit"
         android:layout_width="72dp"
         android:layout_height="35dp"
         android:text="edit"
