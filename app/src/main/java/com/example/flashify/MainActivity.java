@@ -63,17 +63,17 @@ public class MainActivity extends AppCompatActivity {
             Category curCategory = new Category(TempN);
             curCategory.setCategoryId(TempCatId);
 
-            categories.add(curCategory);
 
-            for (int idf = 0; idf < flashcardDBList.size(); idf++) {
-                // loading flashcards from the database
-                if (flashcardDBList.get(idf).category_id == TempCatId) {
-                    TempF = flashcardDBList.get(idf).front_side;
-                    TempB = flashcardDBList.get(idf).back_side;
-                    categories.get(id).getFlashcards().add(new Flashcard(TempF, TempB));
-                }
 
+            List<FlashcardDB> curFlashcardDBs = db.flashcardsDao().getAllFlashcardsOfCategory(TempCatId);
+
+            for (int idf = 0; idf < curFlashcardDBs.size(); idf++){
+                TempF = curFlashcardDBs.get(idf).front_side;
+                TempB = curFlashcardDBs.get(idf).back_side;
+                curCategory.getFlashcards().add(new Flashcard(TempF, TempB));
             }
+
+            categories.add(curCategory);
         }
     }
 

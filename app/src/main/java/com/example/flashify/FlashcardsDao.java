@@ -18,4 +18,6 @@ public interface FlashcardsDao {
     @Query("DELETE FROM FlashcardDB")
     void deleteAllFlashcards();
 
+    @Query("SELECT * FROM FlashcardDB WHERE category_id = :category_id")
+    List<FlashcardDB> getAllFlashcardsOfCategory(long category_id);
 }
