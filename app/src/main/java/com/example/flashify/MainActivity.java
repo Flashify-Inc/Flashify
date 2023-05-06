@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,37 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private void loadCategoriesFromDB() {
         db = AppDatabase.getInstance(getApplicationContext());
 
-        db.flashcardsDao().deleteAllFlashcards();
-        db.categoryDao().deleteAllCategories();
-
-        CategoryDB mathCat = new CategoryDB("Mathematics");
-        long mathCat_ID = db.categoryDao().insertCategory(mathCat);
-        CategoryDB chemCat = new CategoryDB("Chemistry");
-        long chemCat_ID = db.categoryDao().insertCategory(chemCat);
-        CategoryDB bioCat = new CategoryDB("Biology");
-        long bioCat_ID = db.categoryDao().insertCategory(bioCat);
-
-        FlashcardDB fl1 = new FlashcardDB("2+2=", "4", mathCat_ID);
-        FlashcardDB fl2 = new FlashcardDB("10+10=", "20", mathCat_ID);
-        FlashcardDB fl3 = new FlashcardDB("hydrochloric acid formula", "HCl", chemCat_ID);
-        FlashcardDB fl4 = new FlashcardDB("sulfuric acid formula", "H2SO4", chemCat_ID);
-        FlashcardDB fl5 = new FlashcardDB("Mitosis", "Whatever Mitosis is", chemCat_ID);
-        FlashcardDB fl6 = new FlashcardDB("chem shiz", ":(", chemCat_ID);
-        FlashcardDB fl7 = new FlashcardDB("whats the chemical formula of your mom", "ObESe", chemCat_ID);
-        db.flashcardsDao().insertFlashcard(fl1);
-        db.flashcardsDao().insertFlashcard(fl2);
-        db.flashcardsDao().insertFlashcard(fl3);
-        db.flashcardsDao().insertFlashcard(fl4);
-        db.flashcardsDao().insertFlashcard(fl5);
-        db.flashcardsDao().insertFlashcard(fl6);
-        db.flashcardsDao().insertFlashcard(fl7);
-
-
-
         // Getting everything from the database and storing it into CategoryDB and FlashcardsDB lists.
         List<CategoryDB> categoryDBList = db.categoryDao().getAllCategories();
         List<FlashcardDB> flashcardDBList = db.flashcardsDao().getAllFlashcards();
-        //Log.d("DavidDebug", flashcardDBList.get(0).frontSide);
 
         // Category initialization
         categories = new ArrayList<Category>();
@@ -94,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
             for (int idf = 0; idf < flashcardDBList.size(); idf++) {
                 // loading flashcards from the database
-                if (flashcardDBList.get(idf).categoryId == TempCatId) {
-                    TempF = flashcardDBList.get(idf).frontSide;
-                    TempB = flashcardDBList.get(idf).backSide;
+                if (flashcardDBList.get(idf).category_id == TempCatId) {
+                    TempF = flashcardDBList.get(idf).front_side;
+                    TempB = flashcardDBList.get(idf).back_side;
                     categories.get(id).getFlashcards().add(new Flashcard(TempF, TempB));
                 }
 
@@ -295,10 +268,18 @@ public class MainActivity extends AppCompatActivity {
                                     // Set the text of the button to the user input
                                     button.setText(inputText);
                                     categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
+                                    Category curCategory = new Category(inputText);
+                                    categories.add(curCategory);
+                                    Log.d("DavidDebug", String.valueOf(categories.size()));
+                                    //CategoryDB curCategoryDB = new CategoryDB(curCategory.getName());
+                                    //long curCategoryId = db.categoryDao().insertCategory(Categor)
+
                                 }
                             })
                             .setNegativeButton("Cancel", null)
                             .show();
+
+
                 }
             });
 
@@ -334,24 +315,16 @@ public class MainActivity extends AppCompatActivity {
         db.flashcardsDao().deleteAllFlashcards();
         db.categoryDao().deleteAllCategories();
 
-
-        // Creating new CategoryDBs and FlashcardDBs from Category and Flashcard ArrayLists
-
-                    /*
-                    Category newCategory = new Category("");
-                    Flashcard newFlashcard = new Flashcard("Mitosis", "whatever Mitosis is");
-                    newCategory.getFlashcards().add(newFlashcard);
-                    categories.add(newCategory);
-                    */
-
         // UPDATING THE DATABASE
         for (int i = 0; i < categories.size(); i++){
             CategoryDB curCategoryDB = new CategoryDB(categories.get(i).getName());
             long curCategoryDB_ID = db.categoryDao().insertCategory(curCategoryDB);
-            for (int j = 0; j < categories.get(i).getFlashcards().size(); j++){
-                FlashcardDB curFlashcardDB =  new FlashcardDB(categories.get(i).getFlashcards().get(j).getFront(),
-                        categories.get(i).getFlashcards().get(j).getBack(), curCategoryDB_ID);
-                db.flashcardsDao().insertFlashcard(curFlashcardDB);
+            if (categories.get(i).getFlashcards().size() != 0){
+                for (int j = 0; j < categories.get(i).getFlashcards().size(); j++){
+                    FlashcardDB curFlashcardDB =  new FlashcardDB(categories.get(i).getFlashcards().get(j).getFront(),
+                            categories.get(i).getFlashcards().get(j).getBack(), curCategoryDB_ID);
+                    db.flashcardsDao().insertFlashcard(curFlashcardDB);
+                }
             }
         }
     }

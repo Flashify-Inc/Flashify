@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 @Database(entities = {FlashcardDB.class, CategoryDB.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase{
 
-    //private static final String PRELOADED_DATABASE_FILE = "flashify-database.db.sql";
+    private static final String PRELOADED_DATABASE_FILE = "my-preloaded-database.db";
     private static final String DB_NAME = "my-database.db";
     private static volatile AppDatabase instance;
 
@@ -25,6 +25,7 @@ public abstract class AppDatabase extends RoomDatabase{
 
     private static AppDatabase create(Context context) {
         return Room.databaseBuilder(context, AppDatabase.class, DB_NAME)
+                .createFromAsset(PRELOADED_DATABASE_FILE)
                 .allowMainThreadQueries()
                 .build();
     }

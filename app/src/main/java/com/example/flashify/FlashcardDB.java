@@ -8,40 +8,40 @@ import androidx.room.PrimaryKey;
 
 
 @Entity (foreignKeys = @ForeignKey(entity = CategoryDB.class, parentColumns = "id",
-        childColumns = "category_id", onDelete = ForeignKey.CASCADE) )
+        childColumns = "category_id", onDelete = ForeignKey.CASCADE ))
 public class FlashcardDB {
     @PrimaryKey(autoGenerate = true)
     public long flashcardId;
 
     @ColumnInfo(name = "front_side")
-    public String frontSide;
+    public String front_side;
 
     @ColumnInfo(name = "back_side")
-    public String backSide;
+    public String back_side;
 
     @ColumnInfo(name = "category_id")
-    public long categoryId;
+    public long category_id;
 
 
     //constructor
-    public FlashcardDB(long flashcardId, String frontSide, String backSide, long categoryId){
+    public FlashcardDB(long flashcardId, String front_side, String back_side, long category_id){
         this.flashcardId = flashcardId;
-        this.frontSide = frontSide;
-        this.backSide = backSide;
-        this.categoryId = categoryId;
+        this.front_side = front_side;
+        this.back_side = back_side;
+        this.category_id = category_id;
 
     }
 
     @Ignore
-    public FlashcardDB(String frontSide, String backSide, long categoryId) {
-        this.frontSide = frontSide;
-        this.backSide = backSide;
-        this.categoryId = categoryId;
+    public FlashcardDB(String front_side, String back_side, long category_id) {
+        this.front_side = front_side;
+        this.back_side = back_side;
+        this.category_id = category_id;
     }
 
     @Override
     public String toString() {
-        return frontSide;
+        return front_side;
     }
 
 }
