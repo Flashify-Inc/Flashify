@@ -36,21 +36,6 @@
             android:orientation="vertical"></LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/backbtn2"
-        android:contentDescription="Back"
-        android:layout_width="53dp"
-        android:layout_height="63dp"
-        android:backgroundTint="#BDBDBD"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
-        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
-
     <Switch
         android:id="@+id/editBtn2"
         android:layout_width="wrap_content"
@@ -58,8 +43,6 @@
         android:text="edit"
         app:layout_constraintBottom_toTopOf="@+id/textCategoryView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.941"
-        app:layout_constraintStart_toEndOf="@+id/backbtn2"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

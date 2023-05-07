@@ -6,7 +6,6 @@ import static com.example.flashify.MainActivity.categories;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,16 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Switch;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SaveCardsActivity extends AppCompatActivity {
 
@@ -72,8 +63,6 @@ public class SaveCardsActivity extends AppCompatActivity {
                     Intent intent = new Intent (SaveCardsActivity.this,CategoryViewActivity.class);
                     intent.putExtra("categoryInd", selectedCategory);
                     startActivity(intent);
-                    // Save the flashcards to the selected category and navigate back to the main activity
-                    // ...
                 }
             }
         });
