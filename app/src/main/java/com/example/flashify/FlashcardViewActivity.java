@@ -163,8 +163,9 @@ public class FlashcardViewActivity extends AppCompatActivity {
     private void refreshView() {
         if( flashcardInd == 0 ) {
             prevf.setVisibility(View.INVISIBLE);
-        } else if (flashcardInd+1 > categories.get(categoryInd).getFlashcards().size() - 1 ){
-            {nextf.setVisibility(View.INVISIBLE);}
+        }
+        if (flashcardInd+1 > categories.get(categoryInd).getFlashcards().size() - 1 ) {
+            nextf.setVisibility(View.INVISIBLE);
         }
 
         FlashC.setText(categories.get(categoryInd).getFlashcards().get(flashcardInd).getFront());
