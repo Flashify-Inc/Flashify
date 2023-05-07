@@ -271,7 +271,6 @@ public class MainActivity extends AppCompatActivity {
             renameBtn.setImageResource(R.drawable.baseline_mode_edit_24);
             renameBtn.setBackgroundColor(Color.TRANSPARENT);
             renameBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            renameBtn.setVisibility(View.INVISIBLE);
             renameBtn.setLayoutParams(editButtonParams);
 
             renameBtn.setOnClickListener(new View.OnClickListener() {
@@ -303,8 +302,15 @@ public class MainActivity extends AppCompatActivity {
             ImageButton deleteBtn = new ImageButton(this);
             deleteBtn.setImageResource(R.drawable.icons8_remove_96);
             deleteBtn.setBackgroundColor(Color.TRANSPARENT);
-            deleteBtn.setVisibility(View.INVISIBLE);
             deleteBtn.setLayoutParams(deleteButtonParams);
+
+            if (edit.isChecked()) {
+                renameBtn.setVisibility(View.VISIBLE);
+                deleteBtn.setVisibility(View.VISIBLE);
+            } else {
+                renameBtn.setVisibility(View.INVISIBLE);
+                deleteBtn.setVisibility(View.INVISIBLE);
+            }
 
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
