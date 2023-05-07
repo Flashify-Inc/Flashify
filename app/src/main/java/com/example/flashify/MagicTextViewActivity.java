@@ -2,6 +2,7 @@ package com.example.flashify;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.flashify.api.ChatCompletionResponse;
 import com.example.flashify.api.ChatCompletionService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,7 +28,7 @@ public class MagicTextViewActivity extends AppCompatActivity {
 
     String apiResponse;
     String userInputText;
-    Flashcard[] generatedFlashcards;
+    static ArrayList<Flashcard> generatedFlashcards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,8 @@ public class MagicTextViewActivity extends AppCompatActivity {
                                  apiResponse = response.body().getCompletion();
                                  Log.d("APIRESPONSE:", apiResponse);
                                  generatedFlashcards = convertStringToFlashcards(apiResponse);
+                                 Intent intent = new Intent(MagicTextViewActivity.this, SaveCardsActivity.class);
+                                 startActivity(intent);
                              } else {
                                  try {
                                      Log.e("FAILED API CALL", "Error: " + response.code() + " " + response.errorBody().string());
@@ -105,14 +109,14 @@ public class MagicTextViewActivity extends AppCompatActivity {
         );
     }
 
-    private Flashcard[] convertStringToFlashcards(String apiOutput) {
+    private ArrayList<Flashcard> convertStringToFlashcards(String apiOutput) {
         String[] cardStrings = apiOutput.split("\\|\\|\\|"); // split input string into card strings
 
-        Flashcard[] flashcards = new Flashcard[cardStrings.length]; // create array of Flashcards with appropriate size
+        ArrayList<Flashcard> flashcards = new ArrayList<Flashcard>(); // create array of Flashcards with appropriate size
 
         for (int i = 1; i < cardStrings.length; i++) {
             String[] cardParts = cardStrings[i].split("///"); // split card string into front and back parts
-            flashcards[i-1] = new Flashcard(cardParts[0], cardParts[1]); // create and store new Flashcard object
+            flashcards.add(new Flashcard(cardParts[0], cardParts[1])); // create and store new Flashcard object
         }
 
         return flashcards; // return array of Flashcards

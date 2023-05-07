@@ -127,7 +127,6 @@ public class FlashcardViewActivity extends AppCompatActivity {
                         // Do nothing
                     }
                 });
-                builder1.show();
 
                 // Create a dialog for editing the back text
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(FlashcardViewActivity.this);
@@ -150,6 +149,7 @@ public class FlashcardViewActivity extends AppCompatActivity {
                     }
                 });
                 builder2.show();
+                builder1.show();
             }
         });
 
