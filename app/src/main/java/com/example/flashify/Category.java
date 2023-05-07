@@ -36,6 +36,8 @@ public class Category implements Parcelable {
         Flashcards.remove(ind);
     }
 
+    public void appendFlashcard(Flashcard flashcard) {Flashcards.add(flashcard);}
+
     public ArrayList<Flashcard> getFlashcards() {
         return Flashcards;
     }

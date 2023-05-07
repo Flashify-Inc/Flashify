@@ -27,6 +27,7 @@ public class CategoryViewActivity extends AppCompatActivity {
 
     ImageButton editBtn;
     ImageButton deleteBtn;
+    Button newCategoryButton;
     Button button;
 
     int categoryInd;
@@ -66,8 +67,6 @@ public class CategoryViewActivity extends AppCompatActivity {
 
         edit = findViewById(R.id.editBtn2);
 
-        /********* edit toggle ************/
-
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,44 +86,6 @@ public class CategoryViewActivity extends AppCompatActivity {
         });
     }
 
-/********************STATIC APPROACH TO ADDING BUTTONS************************
-        // Flashcard buttons
-//        ArrayList<Button> FshButtons = new ArrayList<>();
-//        fbtn1 = findViewById(R.id.BtnFlashcard1);
-//        fbtn2 = findViewById(R.id.btnFlashcard2);
-//        fbtn3 = findViewById(R.id.btnFlashcard3);
-//        fbtn4 = findViewById(R.id.btnFlashcard4);
-//        FshButtons.add(fbtn1);
-//        FshButtons.add(fbtn2);
-//        FshButtons.add(fbtn3);
-//        FshButtons.add(fbtn4);
-
-/************************* INITIALIZER *****************************
-
-            // retrieve the category object from the previous activity
-            catText.setText(c.getName());
-
-            // initialize the fsh buttons
-            for (int id = 0; id < c.getFlashcards().size() ; id++){
-                FshButtons.get(id).setText(c.getFlashcards().get(id).getFront());
-                FshButtons.get(id).setVisibility(View.VISIBLE);
-                int finalId = id;
-                FshButtons.get(id).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intentF = new Intent (CategoryView.this, FlashcardView.class);
-                        intentF.putExtra("co",c);
-                        int index = finalId;
-                        intentF.putExtra("ind",index);
-                        startActivity(intentF);
-                    }
-                });
-
-            }
- */
-
-///******************************************************************/
-//
     private int convertDptoPx(int dp) {
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
@@ -165,7 +126,7 @@ public class CategoryViewActivity extends AppCompatActivity {
             editBtn.setLayoutParams(editButtonParams);
 
             int finalFlashcardInd = flashcardInd;
-        editBtn.setOnClickListener(new View.OnClickListener() {
+            editBtn.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
                    // Create a dialog for editing the front text
@@ -243,7 +204,66 @@ public class CategoryViewActivity extends AppCompatActivity {
 
             outerLinearLayout.addView(innerLinearLayout);
         }
+        newCategoryButton = new Button(this);
+        newCategoryButton.setText("+ New Flashcard");
+        newCategoryButton.setBackgroundColor(0xff6432a8);
+        newCategoryButton.setLayoutParams(buttonParams);
+        newCategoryButton.setTextColor(0xFFFFFFFF);
+        newCategoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create a dialog for editing the front text
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(CategoryViewActivity.this);
+                builder1.setTitle("Enter Front Text");
+                final EditText frontEditText = new EditText(CategoryViewActivity.this);
+                builder1.setView(frontEditText);
+                builder1.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String newFrontText = frontEditText.getText().toString();
 
+                        // Create a dialog for editing the back text
+                        AlertDialog.Builder builder2 = new AlertDialog.Builder(CategoryViewActivity.this);
+                        builder2.setTitle("Enter Back Text");
+                        final EditText backEditText = new EditText(CategoryViewActivity.this);
+                        builder2.setView(backEditText);
+                        builder2.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String newBackText = backEditText.getText().toString();
+                                categories.get(categoryInd).appendFlashcard(new Flashcard(newFrontText, newBackText));
+                                refreshView();
+                            }
+                        });
+                        builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // Do nothing
+                            }
+                        });
+                        builder2.show();
+                        refreshView();
+                    }
+                });
+                builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Do nothing
+                    }
+                });
+                builder1.show();
+            }
+        });
+
+        LinearLayout innerLinearLayout = new LinearLayout(this);
+        innerLinearLayout.setLayoutParams(innerLayoutParams);
+        innerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        innerLinearLayout.setGravity(Gravity.CENTER);
+        newCategoryButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        newCategoryButton.setPadding(convertDptoPx(20), convertDptoPx(10), convertDptoPx(20), convertDptoPx(10));
+        innerLinearLayout.addView(newCategoryButton);
+
+        outerLinearLayout.addView(innerLinearLayout);
     }
 
     @Override
