@@ -26,6 +26,7 @@
         android:layout_height="325dp"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="Paste your text to analyze here. Our wizards will get right to work."
         android:inputType="textMultiLine"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
