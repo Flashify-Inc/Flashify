@@ -106,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
         innerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         innerLayoutParams.setMargins(convertDptoPx(15), 0, convertDptoPx(15), convertDptoPx(20));
 
-        refreshView();
-
         /********* edit toggle ************/
         edit.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -66,8 +66,6 @@ public class CategoryViewActivity extends AppCompatActivity {
 
         edit = findViewById(R.id.editBtn2);
 
-        refreshView();
-
         /********* edit toggle ************/
 
         edit.setOnClickListener(new View.OnClickListener() {
