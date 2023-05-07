@@ -77,9 +77,11 @@ public class CategoryViewActivity extends AppCompatActivity {
                         if (isEditOn) {
                             innerLinearLayout.getChildAt(0).setVisibility(View.VISIBLE);
                             innerLinearLayout.getChildAt(2).setVisibility(View.VISIBLE);
+                            newCategoryButton.setVisibility(View.VISIBLE);
                         } else {
                             innerLinearLayout.getChildAt(0).setVisibility(View.INVISIBLE);
                             innerLinearLayout.getChildAt(2).setVisibility(View.INVISIBLE);
+                            newCategoryButton.setVisibility(View.INVISIBLE);
                         }
                     }
             }
@@ -180,14 +182,6 @@ public class CategoryViewActivity extends AppCompatActivity {
             deleteBtn.setBackgroundColor(Color.TRANSPARENT);
             deleteBtn.setLayoutParams(deleteButtonParams);
 
-            if (edit.isChecked()) {
-                editBtn.setVisibility(View.VISIBLE);
-                deleteBtn.setVisibility(View.VISIBLE);
-            } else {
-                editBtn.setVisibility(View.INVISIBLE);
-                deleteBtn.setVisibility(View.INVISIBLE);
-            }
-
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -209,6 +203,16 @@ public class CategoryViewActivity extends AppCompatActivity {
         newCategoryButton.setBackgroundColor(0xff6432a8);
         newCategoryButton.setLayoutParams(buttonParams);
         newCategoryButton.setTextColor(0xFFFFFFFF);
+
+        if (edit.isChecked()) {
+            editBtn.setVisibility(View.VISIBLE);
+            deleteBtn.setVisibility(View.VISIBLE);
+            newCategoryButton.setVisibility(View.VISIBLE);
+        } else {
+            editBtn.setVisibility(View.INVISIBLE);
+            deleteBtn.setVisibility(View.INVISIBLE);
+            newCategoryButton.setVisibility(View.INVISIBLE);
+        }
         newCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

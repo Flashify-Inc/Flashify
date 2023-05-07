@@ -153,35 +153,76 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                        // Create an EditText view to get user input
-                        final EditText inputView = new EditText(MainActivity.this);
+                // Create an EditText view to get user input
+                final EditText inputView = new EditText(MainActivity.this);
 
-                        // Create a dialog with the EditText view as its content
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                // Create a dialog with the EditText view as its content
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-                        builder.setTitle("New category name: ")
-                                .setView(inputView)
-                                .setPositiveButton("create", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // Get the text entered by the user
-                                        String inputText = inputView.getText().toString();
+                builder.setTitle("New category name: ")
+                    .setView(inputView)
+                    .setPositiveButton("create", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Get the text entered by the user
+                            String inputText = inputView.getText().toString();
 
-                                        // Set the text of the button to the user input
+                            // Set the text of the button to the user input
 
-                                        Category newCategory = new Category( inputText );
-                                        categories.add(newCategory);
 
-                                        Intent intent = new Intent(MainActivity.this, CategoryViewActivity.class);
-                                        intent.putExtra("categoryInd", categories.size() - 1);
-                                        startActivity(intent);
-                                    }
+                            // Create a dialog for editing the front text
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+                            builder1.setTitle("Enter Front of First Flashcard");
+                            final EditText frontEditText = new EditText(MainActivity.this);
+                            builder1.setView(frontEditText);
+                            builder1.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String newFrontText = frontEditText.getText().toString();
 
-                                })
-                                .setNegativeButton("Cancel", null)
-                                .show();
-                    }
-                });
+                                    // Create a dialog for editing the back text
+                                    AlertDialog.Builder builder2 = new AlertDialog.Builder(MainActivity.this);
+                                    builder2.setTitle("Enter Back of First Flashcard");
+                                    final EditText backEditText = new EditText(MainActivity.this);
+                                    builder2.setView(backEditText);
+                                    builder2.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            Category newCategory = new Category( inputText );
+                                            String newBackText = backEditText.getText().toString();
+                                            newCategory.appendFlashcard(new Flashcard(newFrontText, newBackText));
+                                            categories.add(newCategory);
+
+                                            Intent intent = new Intent(MainActivity.this, CategoryViewActivity.class);
+                                            intent.putExtra("categoryInd", categories.size() - 1);
+                                            startActivity(intent);
+                                        }
+                                    });
+                                    builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            // Do nothing
+                                        }
+                                    });
+                                    builder2.show();
+                                    refreshView();
+                                }
+                            });
+                            builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Do nothing
+                                }
+                            });
+                            builder1.show();
+                        }
+
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+            }
+        });
 
         // CONNECTING THE DATABASE
 
