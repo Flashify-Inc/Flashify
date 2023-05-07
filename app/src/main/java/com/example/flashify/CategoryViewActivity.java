@@ -251,4 +251,11 @@ public class CategoryViewActivity extends AppCompatActivity {
         super.onResume();
         refreshView();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intentF = new Intent(CategoryViewActivity.this, MainActivity.class);
+        startActivity(intentF);
+    }
 }

@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton addBtn, manualBtn, magicBtn;
     Switch edit;
 
+    static boolean dbLoaded;
+
     LinearLayout.LayoutParams innerLayoutParams;
     LinearLayout outerLinearLayout;
     LinearLayout.LayoutParams buttonParams;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout.LayoutParams deleteButtonParams;
 
 
-    private AppDatabase db;
+    static private AppDatabase db;
 
     private void loadCategoriesFromDB() {
         db = AppDatabase.getInstance(getApplicationContext());
@@ -109,7 +111,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadCategoriesFromDB();
+        if (!dbLoaded) {
+            loadCategoriesFromDB();
+            dbLoaded = true;
+        }
 
         // localize the interactive buttons in the screen
         addBtn=findViewById(R.id.openBtn);
@@ -195,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                                         categories.add(newCategory);
 
                                         Intent intent = new Intent(MainActivity.this, CategoryViewActivity.class);
-                                        intent.putExtra("category", newCategory);
+                                        intent.putExtra("categoryInd", categories.size() - 1);
                                         startActivity(intent);
                                     }
 
@@ -364,5 +369,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         refreshView();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }
