@@ -72,18 +72,21 @@ public class CategoryViewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 boolean isEditOn = edit.isChecked();
                 // toggle on
-                    for (int innerLinearLayoutInd = 0; innerLinearLayoutInd < categories.get(categoryInd).getFlashcards().size(); innerLinearLayoutInd++) {
-                        LinearLayout innerLinearLayout = (LinearLayout) outerLinearLayout.getChildAt(innerLinearLayoutInd);
-                        if (isEditOn) {
-                            innerLinearLayout.getChildAt(0).setVisibility(View.VISIBLE);
-                            innerLinearLayout.getChildAt(2).setVisibility(View.VISIBLE);
-                            newCategoryButton.setVisibility(View.VISIBLE);
-                        } else {
-                            innerLinearLayout.getChildAt(0).setVisibility(View.INVISIBLE);
-                            innerLinearLayout.getChildAt(2).setVisibility(View.INVISIBLE);
-                            newCategoryButton.setVisibility(View.INVISIBLE);
-                        }
+                for (int innerLinearLayoutInd = 0; innerLinearLayoutInd < categories.get(categoryInd).getFlashcards().size(); innerLinearLayoutInd++) {
+                    LinearLayout innerLinearLayout = (LinearLayout) outerLinearLayout.getChildAt(innerLinearLayoutInd);
+                    if (isEditOn) {
+                        innerLinearLayout.getChildAt(0).setVisibility(View.VISIBLE);
+                        innerLinearLayout.getChildAt(2).setVisibility(View.VISIBLE);
+                    } else {
+                        innerLinearLayout.getChildAt(0).setVisibility(View.INVISIBLE);
+                        innerLinearLayout.getChildAt(2).setVisibility(View.INVISIBLE);
                     }
+                }
+                if (edit.isChecked()) {
+                    newCategoryButton.setVisibility(View.VISIBLE);
+                } else {
+                    newCategoryButton.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
@@ -190,6 +193,14 @@ public class CategoryViewActivity extends AppCompatActivity {
                 }
             });
 
+            if (edit.isChecked()) {
+                editBtn.setVisibility(View.VISIBLE);
+                deleteBtn.setVisibility(View.VISIBLE);
+            } else {
+                editBtn.setVisibility(View.INVISIBLE);
+                deleteBtn.setVisibility(View.INVISIBLE);
+            }
+
             // Add the dynamic button and two smaller image buttons to the LinearLayout
             innerLinearLayout.addView(deleteBtn);
             innerLinearLayout.addView(button);
@@ -205,12 +216,8 @@ public class CategoryViewActivity extends AppCompatActivity {
         newCategoryButton.setTextColor(0xFFFFFFFF);
 
         if (edit.isChecked()) {
-            editBtn.setVisibility(View.VISIBLE);
-            deleteBtn.setVisibility(View.VISIBLE);
             newCategoryButton.setVisibility(View.VISIBLE);
         } else {
-            editBtn.setVisibility(View.INVISIBLE);
-            deleteBtn.setVisibility(View.INVISIBLE);
             newCategoryButton.setVisibility(View.INVISIBLE);
         }
         newCategoryButton.setOnClickListener(new View.OnClickListener() {
