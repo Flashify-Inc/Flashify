@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#F8F8F8"
+    android:background="@color/black"
     android:layout_height="match_parent"
     tools:context=".MagicTextViewActivity">
 
@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter your Text Below:"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +28,8 @@
         android:ems="10"
         android:gravity="start|top"
         android:hint="Paste your text to analyze here. Our wizards will get right to work."
+        android:textColor="@color/white"
+        android:background="@drawable/edittext_border"
         android:inputType="textMultiLine"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -30,9 +30,7 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<Category> categories;
     FloatingActionButton addBtn, manualBtn, magicBtn;
     Switch edit;
-
     static boolean dbLoaded;
-
     LinearLayout.LayoutParams innerLayoutParams;
     LinearLayout outerLinearLayout;
     LinearLayout.LayoutParams buttonParams;
@@ -47,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Getting everything from the database and storing it into CategoryDB and FlashcardsDB lists.
         List<CategoryDB> categoryDBList = db.categoryDao().getAllCategories();
-        List<FlashcardDB> flashcardDBList = db.flashcardsDao().getAllFlashcards();
+        //Log.d("datouna", String.valueOf(categoryDBList.size()));
+        //List<FlashcardDB> flashcardDBList = db.flashcardsDao().getAllFlashcards();
+
 
         // Category initialization
         categories = new ArrayList<Category>();
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 TempF = curFlashcardDBs.get(idf).front_side;
                 TempB = curFlashcardDBs.get(idf).back_side;
                 curCategory.getFlashcards().add(new Flashcard(TempF, TempB));
+
             }
 
             categories.add(curCategory);
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!dbLoaded) {
             loadCategoriesFromDB();
+            //printDebugDatabase();
             dbLoaded = true;
         }
 
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         outerLinearLayout = findViewById(R.id.categoryLinearLayout);
 
         buttonParams = new LinearLayout.LayoutParams(0, convertDptoPx(70));
-        buttonParams.weight = 4;
+        buttonParams.weight = 7;
 
         editButtonParams = new LinearLayout.LayoutParams(0, convertDptoPx(60));
         editButtonParams.weight = 1;
@@ -110,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
         innerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         innerLayoutParams.setMargins(convertDptoPx(15), 0, convertDptoPx(15), convertDptoPx(20));
+
+        refreshView();
 
         /********* edit toggle ************/
         edit.setOnClickListener(new View.OnClickListener() {
@@ -191,7 +195,8 @@ public class MainActivity extends AppCompatActivity {
 
                                             Category newCategory = new Category( inputText );
                                             String newBackText = backEditText.getText().toString();
-                                            newCategory.appendFlashcard(new Flashcard(newFrontText, newBackText));
+                                            newCategory.getFlashcards().add(new Flashcard(newFrontText, newBackText));
+                                            //newCategory.appendFlashcard(new Flashcard(newFrontText, newBackText));
                                             categories.add(newCategory);
 
                                             Intent intent = new Intent(MainActivity.this, CategoryViewActivity.class);
@@ -246,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
 //
 //        /********************************************************************************/
 
-
     }
 
     // magic button method
@@ -271,9 +275,10 @@ public class MainActivity extends AppCompatActivity {
             // Create the dynamic button
             Button button = new Button(this);
             button.setText(categories.get(categoryInd).getName());
-            button.setBackgroundColor(0xFF6200ED);
+            //button.setBackgroundColor(0xFF6200ED);
+            button.setBackground(getResources().getDrawable(R.drawable.rounded_button_category));
             button.setLayoutParams(buttonParams);
-            button.setTextColor(0xFFFFFFFF);
+            button.setTextColor(0xFF000000);
 
             int finalCategoryInd = categoryInd;
             button.setOnClickListener(new View.OnClickListener() {
@@ -287,10 +292,12 @@ public class MainActivity extends AppCompatActivity {
 
             // Create the two smaller image buttons
             ImageButton renameBtn = new ImageButton(this);
-            renameBtn.setImageResource(R.drawable.baseline_mode_edit_24);
+            renameBtn.setImageResource(R.drawable.editicon);
             renameBtn.setBackgroundColor(Color.TRANSPARENT);
             renameBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
             renameBtn.setLayoutParams(editButtonParams);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(110, 110);
+            renameBtn.setLayoutParams(params);
 
             renameBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -321,7 +328,6 @@ public class MainActivity extends AppCompatActivity {
                             })
                             .setNegativeButton("Cancel", null)
                             .show();
-
 
                 }
             });
@@ -357,27 +363,52 @@ public class MainActivity extends AppCompatActivity {
         }
         }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-        //Erase the database entirely
-        db.flashcardsDao().deleteAllFlashcards();
-        db.categoryDao().deleteAllCategories();
-
-        // UPDATING THE DATABASE
-        for (int i = 0; i < categories.size(); i++){
-            CategoryDB curCategoryDB = new CategoryDB(categories.get(i).getName());
-            long curCategoryDB_ID = db.categoryDao().insertCategory(curCategoryDB);
-            if (categories.get(i).getFlashcards().size() != 0){
-                for (int j = 0; j < categories.get(i).getFlashcards().size(); j++){
-                    FlashcardDB curFlashcardDB =  new FlashcardDB(categories.get(i).getFlashcards().get(j).getFront(),
-                            categories.get(i).getFlashcards().get(j).getBack(), curCategoryDB_ID);
-                    db.flashcardsDao().insertFlashcard(curFlashcardDB);
+        public void printDebugDatabase(){
+            for (int i = 0; i < categories.size(); i++){
+                Log.d("datouna", categories.get(i).getName());
+                //Log.d("datouna", String.valueOf(categories.get(i).getFlashcards().size()));
+                for( int j = 0; j <categories.get(i).getFlashcards().size(); j++){
+                   Log.d("datouna", categories.get(i).getFlashcards().get(j).getFront());
                 }
             }
         }
+
+     public static void updateDatabase(){
+         //Erase the database entirely
+         //printDebugDatabase();
+
+         db.flashcardsDao().deleteAllFlashcards();
+         db.categoryDao().deleteAllCategories();
+
+         // UPDATING THE DATABASE
+         for (int i = 0; i < categories.size(); i++){
+             CategoryDB curCategoryDB = new CategoryDB(categories.get(i).getName());
+             long curCategoryDB_ID = db.categoryDao().insertCategory(curCategoryDB);
+             if (categories.get(i).getFlashcards().size() != 0){
+                 for (int j = 0; j < categories.get(i).getFlashcards().size(); j++){
+                     FlashcardDB curFlashcardDB =  new FlashcardDB(categories.get(i).getFlashcards().get(j).getFront(),
+                             categories.get(i).getFlashcards().get(j).getBack(), curCategoryDB_ID);
+                     db.flashcardsDao().insertFlashcard(curFlashcardDB);
+                 }
+             }
+         }
+     }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        updateDatabase();
     }
+
+    /*
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+     */
+
 
     @Override
     protected void onResume() {

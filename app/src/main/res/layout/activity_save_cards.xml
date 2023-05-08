@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SaveCardsActivity">
+    tools:context=".SaveCardsActivity"
+    android:background="@color/black">
 
     <TextView
         android:id="@+id/chooseCat"
@@ -13,6 +14,7 @@
         android:gravity="center"
         android:text="Where do you want to keep your cards?"
         android:textSize="34sp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,14 +41,16 @@
 
     <Button
         android:id="@+id/saveButton"
-        android:layout_width="141dp"
-        android:layout_height="70dp"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
+        android:background="@drawable/add_flashcard_button"
         android:text="Save"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 

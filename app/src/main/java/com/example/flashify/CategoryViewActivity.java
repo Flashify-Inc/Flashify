@@ -7,14 +7,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -38,6 +39,10 @@ public class CategoryViewActivity extends AppCompatActivity {
     LinearLayout.LayoutParams editButtonParams;
     LinearLayout.LayoutParams deleteButtonParams;
 
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +51,7 @@ public class CategoryViewActivity extends AppCompatActivity {
         outerLinearLayout = findViewById(R.id.flashcardLinearLayout);
 
         buttonParams = new LinearLayout.LayoutParams(0, convertDptoPx(90));
-        buttonParams.weight = 4;
+        buttonParams.weight = 7;
 
         editButtonParams = new LinearLayout.LayoutParams(0, convertDptoPx(60));
         editButtonParams.weight = 1;
@@ -109,9 +114,10 @@ public class CategoryViewActivity extends AppCompatActivity {
             // Create the dynamic button
             button = new Button(this);
             button.setText(categories.get(categoryInd).getFlashcards().get(flashcardInd).getFront());
-            button.setBackgroundColor(0xFF6200ED);
+            //button.setBackgroundColor(0xFF6200ED);
+            button.setBackground(getResources().getDrawable(R.drawable.rounded_button_flashcard_scrollview));
             button.setLayoutParams(buttonParams);
-            button.setTextColor(0xFFFFFFFF);
+            button.setTextColor(0xFF000000);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -125,10 +131,12 @@ public class CategoryViewActivity extends AppCompatActivity {
 
             // Create the two smaller image buttons
             editBtn = new ImageButton(this);
-            editBtn.setImageResource(R.drawable.baseline_mode_edit_24);
+            editBtn.setImageResource(R.drawable.editicon);
             editBtn.setBackgroundColor(Color.TRANSPARENT);
             editBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
             editBtn.setLayoutParams(editButtonParams);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(110, 110);
+            editBtn.setLayoutParams(params);
 
             int finalFlashcardInd = flashcardInd;
             editBtn.setOnClickListener(new View.OnClickListener() {
@@ -211,9 +219,10 @@ public class CategoryViewActivity extends AppCompatActivity {
         }
         newCategoryButton = new Button(this);
         newCategoryButton.setText("+ New Flashcard");
-        newCategoryButton.setBackgroundColor(0xff6432a8);
+        //newCategoryButton.setBackgroundColor(0xff6432a8);
+        newCategoryButton.setBackground(getResources().getDrawable(R.drawable.add_flashcard_button));
         newCategoryButton.setLayoutParams(buttonParams);
-        newCategoryButton.setTextColor(0xFFFFFFFF);
+        newCategoryButton.setTextColor(0xFF000000);
 
         if (edit.isChecked()) {
             newCategoryButton.setVisibility(View.VISIBLE);
@@ -277,6 +286,7 @@ public class CategoryViewActivity extends AppCompatActivity {
         outerLinearLayout.addView(innerLinearLayout);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -288,5 +298,22 @@ public class CategoryViewActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent intentF = new Intent(CategoryViewActivity.this, MainActivity.class);
         startActivity(intentF);
+        //printDebugDatabase();
+
+    }
+
+    public void printDebugDatabase(){
+        for (int i = 0; i < categories.size(); i++){
+            Log.d("datouna", categories.get(i).getName());
+            for( int j = 0; j <categories.get(i).getFlashcards().size(); j++){
+                Log.d("datouna", categories.get(i).getFlashcards().get(j).getFront());
+            }
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        MainActivity.updateDatabase();
     }
 }

@@ -3,9 +3,6 @@ package com.example.flashify;
 import static com.example.flashify.MagicTextViewActivity.generatedFlashcards;
 import static com.example.flashify.MainActivity.categories;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SaveCardsActivity extends AppCompatActivity {
 
@@ -114,6 +114,7 @@ public class SaveCardsActivity extends AppCompatActivity {
             Button button = new Button(this);
             button.setText(categories.get(categoryInd).getName());
             button.setBackgroundColor(selectedCategory == categoryInd ? Color.BLACK : 0xFF6200ED);
+            button.setBackground(getResources().getDrawable(R.drawable.categ_save_activity));
             button.setLayoutParams(buttonParams);
             button.setTextColor(0xFFFFFFFF);
 
@@ -131,6 +132,7 @@ public class SaveCardsActivity extends AppCompatActivity {
         newCategoryButton = new Button(this);
         newCategoryButton.setText("+ New Category");
         newCategoryButton.setBackgroundColor(selectedCategory == -2 ? Color.BLACK : 0xff6432a8);
+        newCategoryButton.setBackground(getResources().getDrawable(R.drawable.new_categ_save));
         newCategoryButton.setLayoutParams(buttonParams);
         newCategoryButton.setTextColor(0xFFFFFFFF);
         newCategoryButton.setOnClickListener(new View.OnClickListener() {
