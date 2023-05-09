@@ -144,4 +144,12 @@ public class SaveCardsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intentF = new Intent(SaveCardsActivity.this, MagicTextViewActivity.class);
+        startActivity(intentF);
+        //printDebugDatabase();
+    }
+
 }

@@ -174,6 +174,8 @@ public class MagicTextViewActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (!isLoading) {
             super.onBackPressed();
+            Intent intentF = new Intent(MagicTextViewActivity.this, MainActivity.class);
+            startActivity(intentF);
         }
     }
 }
