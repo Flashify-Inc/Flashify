@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -142,51 +143,91 @@ public class CategoryViewActivity extends AppCompatActivity {
             editBtn.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                   // Create a dialog for editing the front text
-                   AlertDialog.Builder builder1 = new AlertDialog.Builder(CategoryViewActivity.this);
-                   builder1.setTitle("Edit Front Text");
-                   final EditText frontEditText = new EditText(CategoryViewActivity.this);
-                   frontEditText.setText(categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).getFront());
-                   builder1.setView(frontEditText);
-                   builder1.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                       @Override
-                       public void onClick(DialogInterface dialogInterface, int i) {
-                           String newFrontText = frontEditText.getText().toString();
-                           categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).setFront(newFrontText);
-                           refreshView();
-                       }
-                   });
-                   builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                       @Override
-                       public void onClick(DialogInterface dialogInterface, int i) {
-                           // Do nothing
-                       }
-                   });
 
-                   // Create a dialog for editing the back text
-                   AlertDialog.Builder builder2 = new AlertDialog.Builder(CategoryViewActivity.this);
-                   builder2.setTitle("Edit Back Text");
-                   final EditText backEditText = new EditText(CategoryViewActivity.this);
-                   backEditText.setText(categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).getBack());
-                   builder2.setView(backEditText);
-                   builder2.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                       @Override
-                       public void onClick(DialogInterface dialogInterface, int i) {
-                           String newBackText = backEditText.getText().toString();
-                           categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).setBack(newBackText);
-                           refreshView();
-                       }
-                   });
-                   builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                       @Override
-                       public void onClick(DialogInterface dialogInterface, int i) {
-                           // Do nothing
-                       }
-                   });
-                   builder2.show();
-                   builder1.show();
-               }
-            });
+                   /************************************/
+
+                       // Create an AlertDialog builder
+                       AlertDialog.Builder builder = new AlertDialog.Builder(CategoryViewActivity.this);
+                       builder.setTitle("Choose an option");
+
+                       // Add the button options
+                       builder.setPositiveButton("Front Card", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog, int which) {
+                               // Handle Option 1 selection
+                               Toast.makeText(CategoryViewActivity.this, "Renaming Front Card", Toast.LENGTH_SHORT).show();
+
+                               // Create a dialog for editing the front text
+                               AlertDialog.Builder builder1 = new AlertDialog.Builder(CategoryViewActivity.this);
+
+                               builder1.setTitle("Edit Front Card");
+                               final EditText frontEditText = new EditText(CategoryViewActivity.this);
+                               frontEditText.setText(categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).getFront());
+                               builder1.setView(frontEditText);
+
+                               // button save
+                               builder1.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                   @Override
+                                   public void onClick(DialogInterface dialogInterface, int i) {
+
+                                       String newFrontText = frontEditText.getText().toString();
+                                       categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).setFront(newFrontText);
+                                       refreshView();
+                                   }
+                               });
+
+                               // button cancel
+                               builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                   @Override
+                                   public void onClick(DialogInterface dialogInterface, int i) {
+                                       // Do nothing
+                                   }
+                               });
+                               builder1.show();
+                           }
+                       });
+
+                       builder.setNegativeButton("Back Card", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog, int which) {
+                               // Handle Option 2 selection
+                               Toast.makeText(CategoryViewActivity.this, "Editing back card", Toast.LENGTH_SHORT).show();
+
+                               // Create a dialog for editing the back text
+                               AlertDialog.Builder builder2 = new AlertDialog.Builder(CategoryViewActivity.this);
+                               builder2.setTitle("Edit Back Text");
+                               final EditText backEditText = new EditText(CategoryViewActivity.this);
+                               backEditText.setText(categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).getBack());
+                               builder2.setView(backEditText);
+                               builder2.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                   @Override
+                                   public void onClick(DialogInterface dialogInterface, int i) {
+                                       String newBackText = backEditText.getText().toString();
+                                       categories.get(categoryInd).getFlashcards().get(finalFlashcardInd).setBack(newBackText);
+                                       refreshView();
+                                   }
+                               });
+                               builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                   @Override
+                                   public void onClick(DialogInterface dialogInterface, int i) {
+                                       // Do nothing
+                                   }
+                               });
+                               builder2.show();
+                           }
+                       });
+
+                       // Show the dialog
+                       AlertDialog dialog = builder.create();
+                       dialog.show();
+
+                   }
+               });
+
+            
+
+                   /************************************/
+
 
             deleteBtn = new ImageButton(this);
             deleteBtn.setImageResource(R.drawable.icons8_remove_96);

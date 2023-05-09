@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
@@ -15,11 +16,14 @@ import android.widget.ToggleButton;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 public class FlashcardViewActivity extends AppCompatActivity {
     ToggleButton FlashC;
     int flashcardInd;
 
     Switch toggleEdit;
+    LottieAnimationView sparkle;
     int categoryInd;
     ImageButton nextf, prevf, deleteButton, editButton;
 
@@ -36,6 +40,7 @@ public class FlashcardViewActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.deleteButton);
         editButton = findViewById(R.id.editButton);
         toggleEdit = findViewById(R.id.toggleEdit);
+        sparkle = findViewById(R.id.sparkle);
 
         // retrieve the data
         categoryInd = getIntent().getIntExtra("categoryInd", 0);
@@ -71,6 +76,19 @@ public class FlashcardViewActivity extends AppCompatActivity {
                     refreshView();
                 }
 
+        });
+
+        // animation
+        FlashC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    sparkle.setVisibility(View.VISIBLE);
+                    sparkle.playAnimation();
+                } else {
+                    sparkle.setVisibility(View.GONE);
+                }
+            }
         });
 
         // previous button

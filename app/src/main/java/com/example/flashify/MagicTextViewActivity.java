@@ -8,12 +8,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.flashify.api.ChatCompletionRequest;
 import com.example.flashify.api.ChatCompletionResponse;
 import com.example.flashify.api.ChatCompletionService;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +34,9 @@ public class MagicTextViewActivity extends AppCompatActivity {
 
     String apiResponse;
     String userInputText;
+    TextView text;
+    EditText editText;
+    LottieAnimationView loadingAnimation, writting, fronto;
     static ArrayList<Flashcard> generatedFlashcards;
 
     @Override
@@ -36,19 +45,34 @@ public class MagicTextViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_magic_text_view);
 
         Button flashifyBtn = findViewById(R.id.FlashifyBtn);
+        loadingAnimation = findViewById(R.id.animationView);
+        writting = findViewById(R.id.fronti);
+        fronto = findViewById(R.id.fronto);
+
 
         flashifyBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText editText = findViewById(R.id.editText);
+                text = findViewById(R.id.textTitle);
+                editText = findViewById(R.id.editText);
+
                 userInputText = editText.getText().toString();
+
 
                 if (userInputText.length() > 3000) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MagicTextViewActivity.this);
+                    EditText finalEditText = editText;
                     builder.setMessage(getString(R.string.lengthWarning))
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+                                    loadScreen( text, finalEditText, flashifyBtn);
+                                    loadingAnimation.setVisibility(View.VISIBLE);
+                                    fronto.setVisibility(View.VISIBLE);
+                                    writting.setVisibility(View.INVISIBLE);
+
                                     generateFlashcards();
+
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -59,7 +83,12 @@ public class MagicTextViewActivity extends AppCompatActivity {
                     AlertDialog alert = builder.create();
                     alert.show();
                 } else {
+                    loadScreen( text, editText, flashifyBtn);
+                    loadingAnimation.setVisibility(View.VISIBLE);
+                    fronto.setVisibility(View.VISIBLE);
+                    writting.setVisibility(View.INVISIBLE);
                     generateFlashcards();
+
                 }
             }
         });
@@ -107,6 +136,20 @@ public class MagicTextViewActivity extends AppCompatActivity {
                      }
 
         );
+    }
+
+    public void loadScreen(TextView T, EditText ET, Button B){
+        B.setVisibility(View.INVISIBLE);
+
+        ET.setVisibility(View.INVISIBLE);
+        T.setVisibility(View.INVISIBLE);
+    }
+
+    public void UnloadScreen( TextView T, EditText ET, Button B){
+        B.setVisibility(View.VISIBLE);
+
+        ET.setVisibility(View.VISIBLE);
+        T.setVisibility(View.VISIBLE);
     }
 
     private ArrayList<Flashcard> convertStringToFlashcards(String apiOutput) {

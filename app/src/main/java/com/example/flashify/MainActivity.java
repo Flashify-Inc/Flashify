@@ -264,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshView() {
+
         outerLinearLayout.removeAllViews();
         for (int categoryInd = 0; categoryInd < categories.size(); categoryInd++) {
             // Create a new horizontal LinearLayout to hold the dynamic button and two smaller image buttons
@@ -320,7 +321,8 @@ public class MainActivity extends AppCompatActivity {
                                     categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
                                     Category curCategory = new Category(inputText);
                                     categories.add(curCategory);
-                                    Log.d("DavidDebug", String.valueOf(categories.size()));
+
+                                    //Log.d("DavidDebug", String.valueOf(outerLinearLayout.indexOfChild(innerLinearLayout)));
                                     //CategoryDB curCategoryDB = new CategoryDB(curCategory.getName());
                                     //long curCategoryId = db.categoryDao().insertCategory(Categor)
 
