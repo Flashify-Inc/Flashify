@@ -7,6 +7,8 @@ Flashcard learning tool leveraging AI for rapid flashcard generation
 `apiKey=YOUR_API_KEY` 
 where YOUR_API_KEY is the key from OpenAI
 
+Note: the loading screen that waits for an API response will time out after two minutes. 
+
 
 ## Design:
 

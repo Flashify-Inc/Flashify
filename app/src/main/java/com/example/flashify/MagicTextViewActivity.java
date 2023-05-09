@@ -21,7 +21,9 @@ import com.example.flashify.api.ChatCompletionService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -98,8 +100,14 @@ public class MagicTextViewActivity extends AppCompatActivity {
     }
 
     private void generateFlashcards() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(120, TimeUnit.SECONDS)
+                .readTimeout(120,TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS).build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.openai.com/")
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ChatCompletionService chatCompletionService = retrofit.create(ChatCompletionService.class);
@@ -114,33 +122,31 @@ public class MagicTextViewActivity extends AppCompatActivity {
         Call<ChatCompletionResponse> call = chatCompletionService.retrieveFlashcards(chatCompletionRequest);
 
         call.enqueue(new Callback<ChatCompletionResponse>() {
-                         @Override
-                         public void onResponse(Call<ChatCompletionResponse> call, Response<ChatCompletionResponse> response) {
-                             if (response.isSuccessful()) {
-                                 apiResponse = response.body().getCompletion();
-                                 Log.d("APIRESPONSE:", apiResponse);
-                                 generatedFlashcards = convertStringToFlashcards(apiResponse);
-                                 Intent intent = new Intent(MagicTextViewActivity.this, SaveCardsActivity.class);
-                                 startActivity(intent);
-                             } else {
-                                 UnloadScreen(text, editText, flashifyBtn);
-                                 try {
-                                     Log.e("FAILED API CALL", "Error: " + response.code() + " " + response.errorBody().string());
-                                 } catch (IOException e) {
-                                     throw new RuntimeException(e);
-                                 }
-                             }
-
-                         }
-
-                         @Override
-                         public void onFailure(Call<ChatCompletionResponse> call, Throwable t) {
-                             Log.e(this.getClass().getSimpleName(), "Exception calling endpoint", t);
-
-                         }
+             @Override
+             public void onResponse(Call<ChatCompletionResponse> call, Response<ChatCompletionResponse> response) {
+                 if (response.isSuccessful()) {
+                     apiResponse = response.body().getCompletion();
+                     Log.d("APIRESPONSE:", apiResponse);
+                     generatedFlashcards = convertStringToFlashcards(apiResponse);
+                     Intent intent = new Intent(MagicTextViewActivity.this, SaveCardsActivity.class);
+                     startActivity(intent);
+                 } else {
+                     UnloadScreen(text, editText, flashifyBtn);
+                     try {
+                         Log.e("FAILED API CALL", "Error: " + response.code() + " " + response.errorBody().string());
+                     } catch (IOException e) {
+                         throw new RuntimeException(e);
                      }
+                 }
 
-        );
+             }
+
+             @Override
+             public void onFailure(Call<ChatCompletionResponse> call, Throwable t) {
+                 Log.e(this.getClass().getSimpleName(), "Exception calling endpoint", t);
+
+             }
+        });
     }
 
     public void loadScreen(TextView T, EditText ET, Button B){
