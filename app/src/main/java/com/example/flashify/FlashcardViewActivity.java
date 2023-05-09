@@ -56,7 +56,7 @@ public class FlashcardViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 categories.get(categoryInd).deleteFlashcard(flashcardInd);
-                if (flashcardInd == categories.get(categoryInd).getFlashcards().size()) {
+                if (flashcardInd == categories.get(categoryInd).getFlashcards().size() && flashcardInd != 0) {
                     flashcardInd = flashcardInd-1;
                 } ;
                 refreshView();
