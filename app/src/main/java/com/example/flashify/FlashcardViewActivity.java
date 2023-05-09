@@ -55,11 +55,18 @@ public class FlashcardViewActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categories.get(categoryInd).deleteFlashcard(flashcardInd);
-                if (flashcardInd == categories.get(categoryInd).getFlashcards().size() && flashcardInd != 0) {
-                    flashcardInd = flashcardInd-1;
-                } ;
-                refreshView();
+                if (categories.get(categoryInd).getFlashcards().size() == 1) {
+                    categories.get(categoryInd).deleteFlashcard(0);
+                    Intent intent = new Intent (FlashcardViewActivity.this,CategoryViewActivity.class);
+                    intent.putExtra("categoryInd", categoryInd);
+                    startActivity(intent);
+                } else {
+                    categories.get(categoryInd).deleteFlashcard(flashcardInd);
+                    if (flashcardInd == categories.get(categoryInd).getFlashcards().size()) {
+                        flashcardInd = flashcardInd - 1;
+                    }
+                    refreshView();
+                }
             }
         });
 
