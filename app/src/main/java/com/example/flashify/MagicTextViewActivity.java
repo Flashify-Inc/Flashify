@@ -33,6 +33,8 @@ public class MagicTextViewActivity extends AppCompatActivity {
     String apiResponse;
     String userInputText;
     Button flashifyBtn;
+
+    boolean isLoading;
     TextView text;
     EditText editText;
     LottieAnimationView loadingAnimation, writting, fronto;
@@ -104,8 +106,10 @@ public class MagicTextViewActivity extends AppCompatActivity {
 
         String model = getString(R.string.model);
         String systemApiPrompt = getString(R.string.system_api_prompt);
-
+        isLoading = true;
         ChatCompletionRequest chatCompletionRequest = new ChatCompletionRequest(model, systemApiPrompt, userInputText);
+        Log.d("APIRESPONSErequest:", "apiresponserequest...");
+
 
         Call<ChatCompletionResponse> call = chatCompletionService.retrieveFlashcards(chatCompletionRequest);
 
@@ -164,5 +168,12 @@ public class MagicTextViewActivity extends AppCompatActivity {
         }
 
         return flashcards; // return array of Flashcards
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!isLoading) {
+            super.onBackPressed();
+        }
     }
 }
