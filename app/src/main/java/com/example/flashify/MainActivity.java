@@ -1,6 +1,7 @@
 package com.example.flashify;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -347,8 +348,23 @@ public class MainActivity extends AppCompatActivity {
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    categories.remove(outerLinearLayout.indexOfChild(innerLinearLayout));
-                    outerLinearLayout.removeView(innerLinearLayout);
+                    Context context = view.getContext();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("All flashcards in this category will be erased too. Are you sure you want to delete this?");
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    categories.remove(outerLinearLayout.indexOfChild(innerLinearLayout));
+                                    outerLinearLayout.removeView(innerLinearLayout);
+                                }
+                            });
+                    builder.setNegativeButton("No", null);
+                    builder.create().show();
+
+                    //categories.remove(outerLinearLayout.indexOfChild(innerLinearLayout));
+                    //outerLinearLayout.removeView(innerLinearLayout);
                 }
             });
 
