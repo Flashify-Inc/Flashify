@@ -19,8 +19,6 @@ import com.example.flashify.api.ChatCompletionRequest;
 import com.example.flashify.api.ChatCompletionResponse;
 import com.example.flashify.api.ChatCompletionService;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -34,6 +32,7 @@ public class MagicTextViewActivity extends AppCompatActivity {
 
     String apiResponse;
     String userInputText;
+    Button flashifyBtn;
     TextView text;
     EditText editText;
     LottieAnimationView loadingAnimation, writting, fronto;
@@ -44,7 +43,7 @@ public class MagicTextViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_magic_text_view);
 
-        Button flashifyBtn = findViewById(R.id.FlashifyBtn);
+        flashifyBtn = findViewById(R.id.FlashifyBtn);
         loadingAnimation = findViewById(R.id.animationView);
         writting = findViewById(R.id.fronti);
         fronto = findViewById(R.id.fronto);
@@ -70,7 +69,6 @@ public class MagicTextViewActivity extends AppCompatActivity {
                                     loadingAnimation.setVisibility(View.VISIBLE);
                                     fronto.setVisibility(View.VISIBLE);
                                     writting.setVisibility(View.INVISIBLE);
-
                                     generateFlashcards();
 
                                 }
@@ -87,6 +85,8 @@ public class MagicTextViewActivity extends AppCompatActivity {
                     loadingAnimation.setVisibility(View.VISIBLE);
                     fronto.setVisibility(View.VISIBLE);
                     writting.setVisibility(View.INVISIBLE);
+
+                    Log.d("API", "onClicked before generatecards");
                     generateFlashcards();
 
                 }
@@ -119,6 +119,7 @@ public class MagicTextViewActivity extends AppCompatActivity {
                                  Intent intent = new Intent(MagicTextViewActivity.this, SaveCardsActivity.class);
                                  startActivity(intent);
                              } else {
+                                 UnloadScreen(text, editText, flashifyBtn);
                                  try {
                                      Log.e("FAILED API CALL", "Error: " + response.code() + " " + response.errorBody().string());
                                  } catch (IOException e) {

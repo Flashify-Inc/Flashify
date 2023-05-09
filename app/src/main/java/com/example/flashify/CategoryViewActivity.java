@@ -118,7 +118,7 @@ public class CategoryViewActivity extends AppCompatActivity {
             //button.setBackgroundColor(0xFF6200ED);
             button.setBackground(getResources().getDrawable(R.drawable.rounded_button_flashcard_scrollview));
             button.setLayoutParams(buttonParams);
-            button.setTextColor(0xFF000000);
+            button.setTextColor(0xFFFFFFFF);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
