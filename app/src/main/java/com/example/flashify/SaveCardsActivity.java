@@ -5,7 +5,6 @@ import static com.example.flashify.MainActivity.categories;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -113,8 +112,7 @@ public class SaveCardsActivity extends AppCompatActivity {
             // Create the dynamic button
             Button button = new Button(this);
             button.setText(categories.get(categoryInd).getName());
-            button.setBackgroundColor(selectedCategory == categoryInd ? Color.BLACK : 0xFF6200ED);
-            button.setBackground(getResources().getDrawable(R.drawable.categ_save_activity));
+            button.setBackground(selectedCategory == categoryInd ? getResources().getDrawable(R.drawable.categ_save_activity_clicked) : getResources().getDrawable(R.drawable.categ_save_activity));
             button.setLayoutParams(buttonParams);
             button.setTextColor(0xFFFFFFFF);
 
@@ -131,8 +129,8 @@ public class SaveCardsActivity extends AppCompatActivity {
 
         newCategoryButton = new Button(this);
         newCategoryButton.setText("+ New Category");
-        newCategoryButton.setBackgroundColor(selectedCategory == -2 ? Color.BLACK : 0xff6432a8);
-        newCategoryButton.setBackground(getResources().getDrawable(R.drawable.new_categ_save));
+        //newCategoryButton.setBackgroundColor(selectedCategory == -2 ? Color.BLACK : 0xFFEBC20C);
+        newCategoryButton.setBackground(selectedCategory == -2 ? getResources().getDrawable(R.drawable.new_categ_save_clicked) : getResources().getDrawable(R.drawable.new_categ_save));
         newCategoryButton.setLayoutParams(buttonParams);
         newCategoryButton.setTextColor(0xFFFFFFFF);
         newCategoryButton.setOnClickListener(new View.OnClickListener() {

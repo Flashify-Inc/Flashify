@@ -3,7 +3,7 @@
     android:padding="10dp"
     android:gradientRadius="30dp">
 
-    <solid android:color="#BE92E8" />
+    <solid android:color="#9E830F" />
 
     <corners
         android:radius="30dp" />
