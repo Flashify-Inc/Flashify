@@ -2,7 +2,7 @@
 Flashcard learning tool leveraging AI for rapid flashcard generation
 
 ## Directions for use:
-1. Obtain API Key from OpenAI at [this link](https://platform.openai.com/account/usage)
+1. Obtain API Key from OpenAI at [this link](https://platform.openai.com/account/api-keys)
 2. In your local.properties file that located in the root project directory, insert the following line of code:
 `apiKey=YOUR_API_KEY` 
 where YOUR_API_KEY is the key from OpenAI
