@@ -318,10 +318,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     // Set the text of the button to the user input
                                     button.setText(inputText);
-                                    categories.get(outerLinearLayout.indexOfChild(innerLinearLayout)).setName(inputText);
-                                    Category curCategory = new Category(inputText);
-                                    categories.add(curCategory);
-
+                                    categories.get(finalCategoryInd).setName(inputText);
                                     //Log.d("DavidDebug", String.valueOf(outerLinearLayout.indexOfChild(innerLinearLayout)));
                                     //CategoryDB curCategoryDB = new CategoryDB(curCategory.getName());
                                     //long curCategoryId = db.categoryDao().insertCategory(Categor)
@@ -350,7 +347,6 @@ public class MainActivity extends AppCompatActivity {
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     categories.remove(outerLinearLayout.indexOfChild(innerLinearLayout));
                     outerLinearLayout.removeView(innerLinearLayout);
                 }
