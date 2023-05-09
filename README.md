@@ -1,6 +1,14 @@
 # Flashify
 Flashcard learning tool leveraging AI for rapid flashcard generation
 
+## Directions for use:
+1. Obtain API Key from OpenAI at [this link](https://platform.openai.com/account/api-keys)
+2. In your local.properties file that located in the root project directory, insert the following line of code:
+`apiKey=YOUR_API_KEY` 
+where YOUR_API_KEY is the key from OpenAI
+
+Note: the loading screen that waits for an API response will time out after two minutes. 
+
 
 ## Design:
 
@@ -13,22 +21,23 @@ For now, structure is one layer of any number of categories, each of which conta
 
 ## Features to Implement
 
-Critical: 
+Critical/basic: 
 
-* Use AI model to generate flashcards from text
-* Write, edit, and study flashcards 
+* Use AI model to generate flashcardDBs from text
+* View categories & study flashcardDBs 
+* edit ( add, update, delete )
 * Store user preferences and cards in SQL database
 
 
-Ideal:
+Ideal features:
 * Include several study methods/games
-* Support organization of flashcards into folders
-* Have API optionally generate category name
-  - Label with special category in UI
+* Support organization of flashcardDBS into folders
+* Have API optionally generate categoryDB name
+  - Label with special categoryDB in UI
 * Optionally select number of cards to generate
 
-Like to have:
+Optimal features: 
 * Reminder push notifications
 * Support multiple formats (pdf, powerpoint, photo)
-* Optionally select format of flashcards generated
+* Optionally select format of flashcardDBS generated
 * Support nested folder structure

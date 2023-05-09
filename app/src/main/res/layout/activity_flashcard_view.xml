@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".FlashcardViewActivity">
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/sparkle"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:visibility="invisible"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/sparkl"
+        android:elevation="10dp"
+        tools:ignore="MissingConstraints" />
+
+    <Switch
+        android:id="@+id/toggleEdit"
+        android:layout_width="72dp"
+        android:layout_height="35dp"
+        android:text="edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.926"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.034" />
+
+
+    <ToggleButton
+        android:id="@+id/FlachCD"
+        android:layout_width="370dp"
+        android:layout_height="300dp"
+        android:background="@drawable/rounded_button_flashcard_large_display"
+        android:text="Flashcard 1"
+        android:textColor="#FFFFFF"
+        android:textOff="Flashcard 1"
+        android:textOn="Definition 1"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toTopOf="@+id/prevF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleEdit"
+        app:layout_constraintVertical_bias="0.454" />
+
+
+
+    <ImageButton
+        android:id="@+id/prevF"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.323"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.726"
+        app:srcCompat="@drawable/arrow_left"
+        android:background="@android:color/transparent"/>
+
+    <ImageButton
+        android:id="@+id/nextF"
+        android:layout_width="55dp"
+        android:layout_height="58dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.679"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.726"
+        app:srcCompat="@drawable/arrow_right"
+        android:background="@android:color/transparent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/homeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="launchMainActivity"
+        android:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.893"
+        app:srcCompat="@drawable/homebutton"
+        />
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="80dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="4dp"
+        android:background="@android:color/transparent"
+        android:elevation="2dp"
+        app:layout_constraintStart_toStartOf="@+id/FlachCD"
+        app:layout_constraintTop_toTopOf="@+id/FlachCD"
+        app:srcCompat="@drawable/icons8_remove_96" />
+
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@android:color/transparent"
+        android:elevation="2dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/FlachCD"
+        app:layout_constraintTop_toTopOf="@+id/FlachCD"
+        app:srcCompat="@drawable/editicon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
