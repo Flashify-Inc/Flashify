@@ -28,6 +28,7 @@
         android:layout_height="325dp"
         android:background="@drawable/edittext_border"
         android:ems="10"
+        android:padding="20dp"
         android:gravity="start|top"
         android:hint="Paste your text to analyze here. Our wizards will get right to work."
         android:inputType="textMultiLine"
